@@ -1,0 +1,42 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  {{ parent() }} - Home
+{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+  <script>
+    $(function () {
+        $("#tags").autocomplete({
+            source: function (request, response) {
+                var val = {};
+                val.search = $("#tags").val();
+                $.ajax({
+                    url: "/Home/getListAutoComplete/",
+                    method: "post",
+                    data: val,
+                    dataType: "json",
+                    success: function (data) {
+                        JSON.stringify(data);
+                        response($.map(data, function(v,i) {
+                            return {
+                                label: v.nom,
+                                value: v.nom
+                            }
+                        }));
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+  <h1>AutoComplete</h1>
+
+  <div class="ui-widget">
+        <label for="tags">Tags: </label>
+        <input id="tags">
+    </div>
+{% endblock %}
