@@ -12,30 +12,30 @@ Features
 	- other users comments,
 	- average users mark,
 	- associated tags,
-	- available plateforms,
+	- available platforms,
 	- download links,
 	- app manual,
 - download apps,
 - leave comments on an app,
 - mark an app,
 - search for apps,
-- adapt pages to user plateform
+- adapt pages to user platform
 
 DataBase
 --------
 
 Basic beginning db schema (will certainly be modified) :
 
-- plateforms	[id], name
+- platforms		[id], name
 - apps			[id], name, description
-- tags			[name]
+- tags			[id], name
 
-- appInfos		[id], #idApp, #idPlateform, downloadPath
+- appInfos		[id], #idApp, #idPlatform, downloadPath
 - appTags		[#idApp, #idTag]
 - comments		[id], #idAppInfo, comment
 - marks			[id], #idAppInfo, mark
 
-in appInfos : Couple (idApp, idPlateform) is unique.
+in appInfos : Couple (idApp, idPlatform) is unique.
 
 Legend :
 - [] is primary key

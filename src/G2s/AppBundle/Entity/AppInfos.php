@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AppInfos
  *
- * @ORM\Table()
+ * @ORM\Table(
+ * 		uniqueConstraints={@ORM\UniqueConstraint(
+ * 			name="uniqueAppInfo",
+ * 			columns={"id_app", "id_platform"}
+ * 		)}
+ * )
  * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\AppInfosRepository")
  */
 class AppInfos
@@ -19,21 +24,19 @@ class AppInfos
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_app", type="integer")
-     */
     private $idApp;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_platform", type="integer")
+	 * @ORM\OneToOne(targetEntity="Apps")
+	 * @ORM\JoinColumn(name="id_app", referencedColumnName="id", nullable=false)
      */
-    private $idPlatform;
+    private $app;
+
+    /**
+	 * @ORM\OneToOne(targetEntity="Platforms")
+	 * @ORM\JoinColumn(name="id_platform", referencedColumnName="id", nullable=false)
+     */
+    private $platform;
 
     /**
      * @var string
@@ -41,6 +44,16 @@ class AppInfos
      * @ORM\Column(name="download_path", type="string", length=255)
      */
     private $downloadPath;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Comments", mappedBy="appInfo")
+	 */
+	private $comments;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Marks", mappedBy="appInfo")
+	 */
+	private $marks;
 
 
     /**

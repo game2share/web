@@ -22,11 +22,10 @@ class Comments
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_appInfo", type="integer")
+	 * @ORM\ManyToOne(targetEntity="AppInfos", inversedBy="comments")
+	 * @ORM\JoinColumn(name="id_appInfo", referencedColumnName="id", nullable=false)
      */
-    private $idAppInfo;
+    private $appInfo;
 
     /**
      * @var string

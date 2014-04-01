@@ -35,6 +35,16 @@ class Apps
      */
     private $description;
 
+    /**
+	 * @ORM\ManyToMany(targetEntity="Tags", inversedBy="apps")
+	 * @ORM\JoinTable(
+	 * 		name="appTags",
+	 *		joinColumns={@ORM\JoinColumn(name="id_app", referencedColumnName="id")},
+	 *		inverseJoinColumns={@ORM\JoinColumn(name="id_tag", referencedColumnName="id")}
+	 * )
+     */
+    private $tags;
+
 
     /**
      * Get id

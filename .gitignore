@@ -6,7 +6,7 @@
 /app/logs/*
 /vendor/
 /app/config/parameters.yml
-composer.lock
+/composer.lock
 
 # Vim
 
