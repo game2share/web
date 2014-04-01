@@ -66,4 +66,44 @@ class Tags
     {
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->apps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add apps
+     *
+     * @param \G2s\AppBundle\Entity\Apps $apps
+     * @return Tags
+     */
+    public function addApp(\G2s\AppBundle\Entity\Apps $apps)
+    {
+        $this->apps[] = $apps;
+
+        return $this;
+    }
+
+    /**
+     * Remove apps
+     *
+     * @param \G2s\AppBundle\Entity\Apps $apps
+     */
+    public function removeApp(\G2s\AppBundle\Entity\Apps $apps)
+    {
+        $this->apps->removeElement($apps);
+    }
+
+    /**
+     * Get apps
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getApps()
+    {
+        return $this->apps;
+    }
 }

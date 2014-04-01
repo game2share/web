@@ -90,4 +90,27 @@ class Marks
     {
         return $this->mark;
     }
+
+    /**
+     * Set appInfo
+     *
+     * @param \G2s\AppBundle\Entity\AppInfos $appInfo
+     * @return Marks
+     */
+    public function setAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfo)
+    {
+        $this->appInfo = $appInfo;
+
+        return $this;
+    }
+
+    /**
+     * Get appInfo
+     *
+     * @return \G2s\AppBundle\Entity\AppInfos 
+     */
+    public function getAppInfo()
+    {
+        return $this->appInfo;
+    }
 }

@@ -134,4 +134,124 @@ class AppInfos
     {
         return $this->downloadPath;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->marks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set app
+     *
+     * @param \G2s\AppBundle\Entity\Apps $app
+     * @return AppInfos
+     */
+    public function setApp(\G2s\AppBundle\Entity\Apps $app)
+    {
+        $this->app = $app;
+
+        return $this;
+    }
+
+    /**
+     * Get app
+     *
+     * @return \G2s\AppBundle\Entity\Apps 
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
+     * Set platform
+     *
+     * @param \G2s\AppBundle\Entity\Platforms $platform
+     * @return AppInfos
+     */
+    public function setPlatform(\G2s\AppBundle\Entity\Platforms $platform)
+    {
+        $this->platform = $platform;
+
+        return $this;
+    }
+
+    /**
+     * Get platform
+     *
+     * @return \G2s\AppBundle\Entity\Platforms 
+     */
+    public function getPlatform()
+    {
+        return $this->platform;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \G2s\AppBundle\Entity\Comments $comments
+     * @return AppInfos
+     */
+    public function addComment(\G2s\AppBundle\Entity\Comments $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \G2s\AppBundle\Entity\Comments $comments
+     */
+    public function removeComment(\G2s\AppBundle\Entity\Comments $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add marks
+     *
+     * @param \G2s\AppBundle\Entity\Marks $marks
+     * @return AppInfos
+     */
+    public function addMark(\G2s\AppBundle\Entity\Marks $marks)
+    {
+        $this->marks[] = $marks;
+
+        return $this;
+    }
+
+    /**
+     * Remove marks
+     *
+     * @param \G2s\AppBundle\Entity\Marks $marks
+     */
+    public function removeMark(\G2s\AppBundle\Entity\Marks $marks)
+    {
+        $this->marks->removeElement($marks);
+    }
+
+    /**
+     * Get marks
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMarks()
+    {
+        return $this->marks;
+    }
 }

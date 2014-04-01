@@ -101,4 +101,44 @@ class Apps
     {
         return $this->description;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \G2s\AppBundle\Entity\Tags $tags
+     * @return Apps
+     */
+    public function addTag(\G2s\AppBundle\Entity\Tags $tags)
+    {
+        $this->tags[] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \G2s\AppBundle\Entity\Tags $tags
+     */
+    public function removeTag(\G2s\AppBundle\Entity\Tags $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
 }
