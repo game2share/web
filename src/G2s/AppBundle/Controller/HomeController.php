@@ -33,7 +33,8 @@ class HomeController extends Controller
 
 				foreach($queriedAppInfo->getMarks() as $mark)
 					$avgMark += $mark->getMark();
-				$avgMark /= count($queriedAppInfo->getMarks());
+				if(count($queriedAppInfo->getMarks()) != 0)
+					$avgMark /= count($queriedAppInfo->getMarks());
 
 				$appInfos[] = array(
 					'platform'	=> $queriedAppInfo->getPlatform(),
