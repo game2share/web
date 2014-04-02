@@ -47,8 +47,8 @@ class HomeController extends Controller
 			}
 
 			$app['appInfos']	= $appInfos;
-
-			$globalAvgMark /= count($appInfos);
+			if(count($appInfos))
+				$globalAvgMark /= count($appInfos);
 			$app['avgMark']		= $globalAvgMark;
 
 			$apps[]				= $app;
