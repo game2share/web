@@ -27,13 +27,13 @@ class AppInfos
     private $idApp;
 
     /**
-	 * @ORM\OneToOne(targetEntity="Apps")
+	 * @ORM\ManyToOne(targetEntity="Apps", inversedBy="appInfos")
 	 * @ORM\JoinColumn(name="id_app", referencedColumnName="id", nullable=false)
      */
     private $app;
 
     /**
-	 * @ORM\OneToOne(targetEntity="Platforms")
+	 * @ORM\ManyToOne(targetEntity="Platforms", inversedBy="appInfos")
 	 * @ORM\JoinColumn(name="id_platform", referencedColumnName="id", nullable=false)
      */
     private $platform;

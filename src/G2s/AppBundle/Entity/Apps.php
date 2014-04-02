@@ -45,6 +45,10 @@ class Apps
      */
     private $tags;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="AppInfos", mappedBy="app")
+	 */
+	private $appInfos;
 
     /**
      * Get id
@@ -140,5 +144,38 @@ class Apps
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Add appInfos
+     *
+     * @param \G2s\AppBundle\Entity\AppInfos $appInfos
+     * @return Apps
+     */
+    public function addAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfos)
+    {
+        $this->appInfos[] = $appInfos;
+
+        return $this;
+    }
+
+    /**
+     * Remove appInfos
+     *
+     * @param \G2s\AppBundle\Entity\AppInfos $appInfos
+     */
+    public function removeAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfos)
+    {
+        $this->appInfos->removeElement($appInfos);
+    }
+
+    /**
+     * Get appInfos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAppInfos()
+    {
+        return $this->appInfos;
     }
 }

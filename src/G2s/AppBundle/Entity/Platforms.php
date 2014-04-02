@@ -28,6 +28,10 @@ class Platforms
      */
     private $name;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="AppInfos", mappedBy="platform")
+	 */
+	private $appInfos;
 
     /**
      * Get id
@@ -60,5 +64,45 @@ class Platforms
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->appInfos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add appInfos
+     *
+     * @param \G2s\AppBundle\Entity\AppInfos $appInfos
+     * @return Platforms
+     */
+    public function addAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfos)
+    {
+        $this->appInfos[] = $appInfos;
+
+        return $this;
+    }
+
+    /**
+     * Remove appInfos
+     *
+     * @param \G2s\AppBundle\Entity\AppInfos $appInfos
+     */
+    public function removeAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfos)
+    {
+        $this->appInfos->removeElement($appInfos);
+    }
+
+    /**
+     * Get appInfos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAppInfos()
+    {
+        return $this->appInfos;
     }
 }
