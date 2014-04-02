@@ -18,6 +18,8 @@ class HomeController extends Controller
 
 		$apps			= array();
 
+		$i = 0;
+
 		foreach($queriedApps as $queriedApp)
 		{
 			$app				= array();
@@ -26,6 +28,8 @@ class HomeController extends Controller
 			$app['app']			= $queriedApp;
 
 			$appInfo			= array();
+
+			$j = 0;
 
 			foreach($queriedApp->getAppInfos() as $queriedAppInfo)
 			{
@@ -36,7 +40,7 @@ class HomeController extends Controller
 				if(count($queriedAppInfo->getMarks()) != 0)
 					$avgMark /= count($queriedAppInfo->getMarks());
 
-				$appInfos[] = array(
+				$appInfos[$j] = array(
 					'platform'	=> $queriedAppInfo->getPlatform(),
 					'comments'	=> $queriedAppInfo->getComments(),
 					'marks'		=> $queriedAppInfo->getMarks(),
@@ -51,7 +55,8 @@ class HomeController extends Controller
 				$globalAvgMark /= count($appInfos);
 			$app['avgMark']		= $globalAvgMark;
 
-			$apps[]				= $app;
+			$apps[$i]				= $app;
+			$i++;
 		}
 
 		return $this->render(
