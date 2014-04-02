@@ -1,4 +1,3 @@
 g2s_app:
     resource: "@G2sAppBundle/Resources/config/routing.yml"
     prefix:   /
-

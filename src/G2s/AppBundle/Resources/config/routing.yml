@@ -2,6 +2,10 @@ g2s_app_homepage:
     pattern:  /
     defaults: { _controller: G2sAppBundle:Home:index }
 
+g2s_app_list_apps:
+    pattern:  /apps
+    defaults: { _controller: G2sAppBundle:Home:apps }
+
 g2s_app_autocompletepage:
     pattern:  /autocomplete
     defaults: { _controller: G2sAppBundle:Autocomplete:index }
