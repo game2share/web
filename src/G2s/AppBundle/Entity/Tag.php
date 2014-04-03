@@ -5,12 +5,12 @@ namespace G2s\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Tags
+ * Tag
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\TagsRepository")
+ * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\TagRepository")
  */
-class Tags
+class Tag
 {
     /**
      * @var integer
@@ -29,10 +29,16 @@ class Tags
     private $name;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="Apps", mappedBy="tags")
+	 * @ORM\ManyToMany(targetEntity="App", mappedBy="tags")
 	 */
 	private $apps;
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->apps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -48,7 +54,7 @@ class Tags
      * Set name
      *
      * @param string $name
-     * @return Tags
+     * @return Tag
      */
     public function setName($name)
     {
@@ -66,21 +72,14 @@ class Tags
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->apps = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add apps
      *
-     * @param \G2s\AppBundle\Entity\Apps $apps
-     * @return Tags
+     * @param \G2s\AppBundle\Entity\App $apps
+     * @return Tag
      */
-    public function addApp(\G2s\AppBundle\Entity\Apps $apps)
+    public function addApp(\G2s\AppBundle\Entity\App $apps)
     {
         $this->apps[] = $apps;
 
@@ -90,9 +89,9 @@ class Tags
     /**
      * Remove apps
      *
-     * @param \G2s\AppBundle\Entity\Apps $apps
+     * @param \G2s\AppBundle\Entity\App $apps
      */
-    public function removeApp(\G2s\AppBundle\Entity\Apps $apps)
+    public function removeApp(\G2s\AppBundle\Entity\App $apps)
     {
         $this->apps->removeElement($apps);
     }

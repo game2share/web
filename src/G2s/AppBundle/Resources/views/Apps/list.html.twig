@@ -9,7 +9,7 @@
 
 	{% for app in apps %}
 
-		<h1>{{ app['app'].name }}</h1>
+		<h1>{{ app['app'].name }} - {{ app['app'].id }}</h1>
 		<p>{{ app['app'].description }}</p>
 
 		<div class="row">
@@ -17,7 +17,9 @@
 				<h2>Available on</h2>
 				<ul>
 				{% for appInfo in app['appInfos'] %}
-					<li>{{ appInfo['platform'].name }} </li>
+					<li><a href='{{appInfo['dlPath']}}'>{{ appInfo['platform'].name }}</a></li>
+				{% else %}
+					<p>Aucune plateforme supportée</p>
 				{% endfor %}
 				</ul>
 			</div>

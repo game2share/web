@@ -5,12 +5,12 @@ namespace G2s\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Marks
+ * Mark
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\MarksRepository")
+ * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\MarkRepository")
  */
-class Marks
+class Mark
 {
     /**
      * @var integer
@@ -22,8 +22,11 @@ class Marks
     private $id;
 
     /**
-	 * @ORM\ManyToOne(targetEntity="AppInfos", inversedBy="marks")
-	 * @ORM\JoinColumn(name="id_appInfo", referencedColumnName="id", nullable=false)
+	 * @ORM\ManyToOne(targetEntity="AppInfo", inversedBy="marks")
+	 * @ORM\JoinColumns(
+	 *	 	@ORM\JoinColumn(name="id_app", referencedColumnName="id_app", nullable=false),
+	 * 		@ORM\JoinColumn(name="id_platform", referencedColumnName="id_platform", nullable=false)
+	 * )
      */
     private $appInfo;
 
@@ -33,7 +36,6 @@ class Marks
      * @ORM\Column(name="mark", type="integer")
      */
     private $mark;
-
 
     /**
      * Get id
@@ -46,33 +48,10 @@ class Marks
     }
 
     /**
-     * Set idAppInfo
-     *
-     * @param integer $idAppInfo
-     * @return Marks
-     */
-    public function setIdAppInfo($idAppInfo)
-    {
-        $this->idAppInfo = $idAppInfo;
-
-        return $this;
-    }
-
-    /**
-     * Get idAppInfo
-     *
-     * @return integer 
-     */
-    public function getIdAppInfo()
-    {
-        return $this->idAppInfo;
-    }
-
-    /**
      * Set mark
      *
      * @param integer $mark
-     * @return Marks
+     * @return Mark
      */
     public function setMark($mark)
     {
@@ -94,10 +73,10 @@ class Marks
     /**
      * Set appInfo
      *
-     * @param \G2s\AppBundle\Entity\AppInfos $appInfo
-     * @return Marks
+     * @param \G2s\AppBundle\Entity\AppInfo $appInfo
+     * @return Mark
      */
-    public function setAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfo)
+    public function setAppInfo(\G2s\AppBundle\Entity\AppInfo $appInfo)
     {
         $this->appInfo = $appInfo;
 
@@ -107,7 +86,7 @@ class Marks
     /**
      * Get appInfo
      *
-     * @return \G2s\AppBundle\Entity\AppInfos 
+     * @return \G2s\AppBundle\Entity\AppInfo 
      */
     public function getAppInfo()
     {

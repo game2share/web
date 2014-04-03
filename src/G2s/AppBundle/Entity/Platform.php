@@ -5,12 +5,12 @@ namespace G2s\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Platforms
+ * Platform
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\PlatformsRepository")
+ * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\PlatformRepository")
  */
-class Platforms
+class Platform
 {
     /**
      * @var integer
@@ -29,9 +29,16 @@ class Platforms
     private $name;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="AppInfos", mappedBy="platform")
+	 * @ORM\OneToMany(targetEntity="AppInfo", mappedBy="platform")
 	 */
 	private $appInfos;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->appInfos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -47,7 +54,7 @@ class Platforms
      * Set name
      *
      * @param string $name
-     * @return Platforms
+     * @return Platform
      */
     public function setName($name)
     {
@@ -65,21 +72,14 @@ class Platforms
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->appInfos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add appInfos
      *
-     * @param \G2s\AppBundle\Entity\AppInfos $appInfos
-     * @return Platforms
+     * @param \G2s\AppBundle\Entity\AppInfo $appInfos
+     * @return Platform
      */
-    public function addAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfos)
+    public function addAppInfo(\G2s\AppBundle\Entity\AppInfo $appInfos)
     {
         $this->appInfos[] = $appInfos;
 
@@ -89,9 +89,9 @@ class Platforms
     /**
      * Remove appInfos
      *
-     * @param \G2s\AppBundle\Entity\AppInfos $appInfos
+     * @param \G2s\AppBundle\Entity\AppInfo $appInfos
      */
-    public function removeAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfos)
+    public function removeAppInfo(\G2s\AppBundle\Entity\AppInfo $appInfos)
     {
         $this->appInfos->removeElement($appInfos);
     }
