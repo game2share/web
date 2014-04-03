@@ -7,30 +7,13 @@
 {% block body %}
   {{ parent() }}
 
-  <script>
-    $(function () {
-        $("#tags").autocomplete({
-            source: function (request, response) {
-                var val = {};
-                val.search = $("#tags").val();
-                $.ajax({
-                    url: "/Home/getListAutoComplete/",
-                    method: "post",
-                    data: val,
-                    dataType: "json",
-                    success: function (data) {
-                        JSON.stringify(data);
-                        response($.map(data, function(v,i) {
-                            return {
-                                label: v.nom,
-                                value: v.nom
-                            }
-                        }));
-                    }
-                });
-            }
-        });
-    });
+    <link type="text/css" rel="stylesheet" href="css/jquery.autocomplete.css" />
+    <script type="text/javascript" src="C:/wamp/www/ProjetFilRouge/web/web/js/jquery.js"></script>
+    <script type="text/javascript" src="C:/wamp/www/ProjetFilRouge/web/web/js/jquery-autocomplete/jquery.autocomplete.js"></script>
+ <script type="text/javascript">
+$(document).ready(function() {
+    $('#tags').autocomplete('autocompleteacc.php');
+});
 </script>
 
   <h1>AutoComplete</h1>
