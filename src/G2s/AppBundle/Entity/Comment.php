@@ -5,12 +5,12 @@ namespace G2s\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Comments
+ * Comment
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\CommentsRepository")
+ * @ORM\Entity(repositoryClass="G2s\AppBundle\Entity\CommentRepository")
  */
-class Comments
+class Comment
 {
     /**
      * @var integer
@@ -22,8 +22,11 @@ class Comments
     private $id;
 
     /**
-	 * @ORM\ManyToOne(targetEntity="AppInfos", inversedBy="comments")
-	 * @ORM\JoinColumn(name="id_appInfo", referencedColumnName="id", nullable=false)
+	 * @ORM\ManyToOne(targetEntity="AppInfo", inversedBy="comments")
+	 * @ORM\JoinColumns(
+	 * 		@ORM\JoinColumn(name="id_app", referencedColumnName="id_app", nullable=false),
+	 * 		@ORM\JoinColumn(name="id_platform", referencedColumnName="id_platform", nullable=false)
+	 * )
      */
     private $appInfo;
 
@@ -33,7 +36,6 @@ class Comments
      * @ORM\Column(name="comment", type="string", length=2048)
      */
     private $comment;
-
 
     /**
      * Get id
@@ -46,33 +48,10 @@ class Comments
     }
 
     /**
-     * Set idAppInfo
-     *
-     * @param integer $idAppInfo
-     * @return Comments
-     */
-    public function setIdAppInfo($idAppInfo)
-    {
-        $this->idAppInfo = $idAppInfo;
-
-        return $this;
-    }
-
-    /**
-     * Get idAppInfo
-     *
-     * @return integer 
-     */
-    public function getIdAppInfo()
-    {
-        return $this->idAppInfo;
-    }
-
-    /**
      * Set comment
      *
      * @param string $comment
-     * @return Comments
+     * @return Comment
      */
     public function setComment($comment)
     {
@@ -94,10 +73,10 @@ class Comments
     /**
      * Set appInfo
      *
-     * @param \G2s\AppBundle\Entity\AppInfos $appInfo
-     * @return Comments
+     * @param \G2s\AppBundle\Entity\AppInfo $appInfo
+     * @return Comment
      */
-    public function setAppInfo(\G2s\AppBundle\Entity\AppInfos $appInfo)
+    public function setAppInfo(\G2s\AppBundle\Entity\AppInfo $appInfo)
     {
         $this->appInfo = $appInfo;
 
@@ -107,7 +86,7 @@ class Comments
     /**
      * Get appInfo
      *
-     * @return \G2s\AppBundle\Entity\AppInfos 
+     * @return \G2s\AppBundle\Entity\AppInfo 
      */
     public function getAppInfo()
     {
