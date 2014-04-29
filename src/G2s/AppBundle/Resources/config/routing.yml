@@ -9,3 +9,7 @@ g2s_app_list_apps:
 g2s_app_autocompletepage:
     pattern:  /autocomplete
     defaults: { _controller: G2sAppBundle:Autocomplete:index }
+
+g2s_app_show_app:
+    pattern:  /apps/show/{app_id}
+    defaults: { _controller: G2sAppBundle:Apps:show }
