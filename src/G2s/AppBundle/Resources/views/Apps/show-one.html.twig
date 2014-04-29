@@ -12,10 +12,17 @@
 	{% set platformsAvg = []	%}
 	{% set platformIt	= 0		%}
 
-	<h1><a href=" {{ path('g2s_app_show_app_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
-	<p>{{ app.description }}</p>
-
 	<div class="row">
+		<div class="col-md-12">
+		<h1><a href=" {{ path('g2s_app_show_app_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
+		<p>
+			{% for tag in app.tags %}
+				<span class="label label-primary">{{ tag.name }}</span>
+			{% endfor %}
+			{{ app.description }}
+		</p>
+		</div>
+
 		<div class="col-md-3">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
