@@ -12,40 +12,51 @@
 
 	<div class="row">
 		<div class="col-md-3">
-			<h2>Available on</h2>
-			<ul>
-			{% for appInfo in app['appInfos'] %}
-				<li><a href='{{appInfo['dlPath']}}'>{{ appInfo['platform'].name }}</a></li>
-			{% else %}
-				<p>Aucune plateforme supportée</p>
-			{% endfor %}
-			</ul>
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3>Available on</h3>
+				</div>
+				<div class="panel-body">
+					{% for appInfo in app['appInfos'] %}
+						<a href='{{appInfo['dlPath']}}'>{{ appInfo['platform'].name }}</a>
+					{% else %}
+						<p>Aucune plateforme supportée</p>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3>Marks : {{ app['avgMark'] }} / 20</h3>
+				</div>
+				<div class="panel-body">
+					{% for appInfo in app['appInfos'] %}
+						{{ appInfo['platform'].name }} : {{ appInfo['avgMark'] }} / 20
+					{% endfor %}
+				</div>
+			</div>
 		</div>
 
 		<div class="col-md-6">
 			<h2>Comments</h2>
-			<ul>
 			{% for appInfo in app['appInfos'] %}
 				{% for comment in appInfo['comments'] %}
-					<li>{{ comment.comment }} ({{ appInfo.platform.name }})</li>
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<strong>{{ comment.title }}</strong>
+							{% if comment.mark is not null%}
+								{{ comment.mark.mark }}
+							{% endif %}
+							<em>({{ appInfo.platform.name }})</em>
+						</div>
+						<div class="panel-body">
+							{{ comment.comment }} ({{ appInfo.platform.name }})
+						</div>
+					</div>
 				{% endfor %}
 			{% endfor %}
-			</ul>
-		</div>
-
-		<div class="col-md-3">
-			<h2>Marks : {{ app['avgMark'] }} / 20</h2>
-			<ul>
-			{% for appInfo in app['appInfos'] %}
-				<li>{{ appInfo['platform'].name }} : {{ appInfo['avgMark'] }} / 20
-					<ul>
-					{% for mark in appInfo.marks %}
-						<li> {{ mark.mark }} / 20 </li>
-					{% endfor %}
-					</ul>
-				</li>
-			{% endfor %}
-			</ul>
 		</div>
 	</div>
 
