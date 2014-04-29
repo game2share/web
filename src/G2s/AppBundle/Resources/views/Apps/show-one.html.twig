@@ -1,0 +1,54 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Home
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+
+	<h1>{{ app['app'].name }} - {{ app['app'].id }}</h1>
+	<p>{{ app['app'].description }}</p>
+
+	<div class="row">
+		<div class="col-md-3">
+			<h2>Available on</h2>
+			<ul>
+			{% for appInfo in app['appInfos'] %}
+				<li><a href='{{appInfo['dlPath']}}'>{{ appInfo['platform'].name }}</a></li>
+			{% else %}
+				<p>Aucune plateforme supportée</p>
+			{% endfor %}
+			</ul>
+		</div>
+
+		<div class="col-md-6">
+			<h2>Comments</h2>
+			<ul>
+			{% for appInfo in app['appInfos'] %}
+				{% for comment in appInfo['comments'] %}
+					<li>{{ comment.comment }} ({{ appInfo.platform.name }})</li>
+				{% endfor %}
+			{% endfor %}
+			</ul>
+		</div>
+
+		<div class="col-md-3">
+			<h2>Marks : {{ app['avgMark'] }} / 20</h2>
+			<ul>
+			{% for appInfo in app['appInfos'] %}
+				<li>{{ appInfo['platform'].name }} : {{ appInfo['avgMark'] }} / 20
+					<ul>
+					{% for mark in appInfo.marks %}
+						<li> {{ mark.mark }} / 20 </li>
+					{% endfor %}
+					</ul>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<hr>
+
+{% endblock %}

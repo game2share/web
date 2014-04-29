@@ -1,0 +1,15 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Home
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+
+	{% for app in apps %}
+
+		{{ include('G2sAppBundle:Apps:show-one.html.twig', {'app': app}) }}
+
+	{% endfor %}
+{% endblock %}

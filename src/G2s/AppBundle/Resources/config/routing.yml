@@ -11,5 +11,9 @@ g2s_app_autocompletepage:
     defaults: { _controller: G2sAppBundle:Autocomplete:index }
 
 g2s_app_show_app:
+    pattern:  /apps/show/
+    defaults: { _controller: G2sAppBundle:Apps:showAll }
+
+g2s_app_show_app_one:
     pattern:  /apps/show/{app_id}
-    defaults: { _controller: G2sAppBundle:Apps:show }
+    defaults: { _controller: G2sAppBundle:Apps:showOne }
