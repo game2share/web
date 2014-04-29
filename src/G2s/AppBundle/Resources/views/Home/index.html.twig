@@ -6,5 +6,9 @@
 
 {% block body %}
   {{ parent() }}
-  <h1>Hello World =)</h1>
+  </div>
+  <div class="jumbotron">
+	{{ include('G2sAppBundle:Home:about.html.twig', {'short': true}) }}
+  </div>
+  <div class="container">
 {% endblock %}

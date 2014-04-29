@@ -11,12 +11,25 @@ class HomeController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('G2sAppBundle:Home:index.html.twig');
+		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:App');
+
+		$apps			= $repository->findAll();
+
+		if($apps == null)
+			throw $this->createNotFoundException('Apps not found');
+
+		return $this->render(
+			'G2sAppBundle:Home:index.html.twig',
+			array('apps' => $apps)
+		);
     }
 
 	public function aboutAction()
 	{
-        return $this->render('G2sAppBundle:Home:about.html.twig');
+		return $this->render(
+			'G2sAppBundle:Home:about.html.twig', 
+			array('short' => false)
+			);
 	}
 
 	public function contactAction()
