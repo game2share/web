@@ -10,7 +10,7 @@ g2s_app_autocompletepage:
     pattern:  /autocomplete
     defaults: { _controller: G2sAppBundle:Autocomplete:index }
 
-g2s_app_show_app:
+g2s_app_show_app_all:
     pattern:  /apps/show/
     defaults: { _controller: G2sAppBundle:Apps:showAll }
 
