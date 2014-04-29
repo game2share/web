@@ -2,6 +2,15 @@ g2s_app_homepage:
     pattern:  /
     defaults: { _controller: G2sAppBundle:Home:index }
 
+g2s_app_about:
+    pattern:  /about/
+    defaults: { _controller: G2sAppBundle:Home:about }
+
+g2s_app_contact:
+    pattern:  /contact/
+    defaults: { _controller: G2sAppBundle:Home:contact }
+
+
 g2s_app_list_apps:
     pattern:  /apps
     defaults: { _controller: G2sAppBundle:Home:apps }
