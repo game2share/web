@@ -54,7 +54,9 @@
 					</ul>
 
 					{# Process mark averages #}
-					{% set globalAvg = globalAvg / platformIt %}
+					{% if platformIt > 0 %}
+						{% set globalAvg = globalAvg / platformIt %}
+					{% endif %}
 				</div>
 			</div>
 		</div>
