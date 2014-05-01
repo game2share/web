@@ -26,3 +26,11 @@ g2s_app_show_app_all:
 g2s_app_show_app_one:
     pattern:  /apps/show/{app_id}
     defaults: { _controller: G2sAppBundle:Apps:showOne }
+
+g2s_app_add_comment:
+    pattern:  /comment/add/{app_id}
+    defaults: { _controller: G2sAppBundle:Comments:add }
+
+g2s_app_show_tag:
+    pattern:  /tags/show/{tag_id}
+    defaults: { _controller: G2sAppBundle:Tags:show }

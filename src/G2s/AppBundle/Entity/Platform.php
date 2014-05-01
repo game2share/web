@@ -28,6 +28,13 @@ class Platform
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="logo_path", type="string", length=256)
+     */
+    private $logoPath;
+
 	/**
 	 * @ORM\OneToMany(targetEntity="AppInfo", mappedBy="platform")
 	 */
@@ -104,5 +111,28 @@ class Platform
     public function getAppInfos()
     {
         return $this->appInfos;
+    }
+
+    /**
+     * Set logoPath
+     *
+     * @param string $logoPath
+     * @return Platform
+     */
+    public function setLogoPath($logoPath)
+    {
+        $this->logoPath = $logoPath;
+
+        return $this;
+    }
+
+    /**
+     * Get logoPath
+     *
+     * @return string 
+     */
+    public function getLogoPath()
+    {
+        return $this->logoPath;
     }
 }
