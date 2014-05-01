@@ -40,7 +40,9 @@
 							{% set avg		= avg + mark.mark %}
 							{% set markIt	= markIt + 1 %}
 						{% endfor %}
-						{% set avg = avg / markIt %}
+						{% if markIt > 0 %}
+							{% set avg = avg / markIt %}
+						{% endif %}
 
 						{% set globalAvg = globalAvg + avg %}
 						{% set platformsAvg = platformsAvg | merge([avg]) %}
