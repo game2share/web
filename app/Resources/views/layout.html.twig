@@ -36,7 +36,17 @@
 		            </li>
 					<li><a href="{{ path('g2s_app_about') }}">About</a></li>
 		            <li><a href="{{ path('g2s_app_contact') }}">Contact</a></li>
-		          </ul>
+		            </ul>
+
+		            <form class="navbar-form navbar-right" role="form" method="post" action="{{ path('g2s_app_selection') }}">
+			            <div class="form-group">
+			                <input type="text" placeholder="Search" class="form-control" name="search">
+			            </div>
+			            <button type="submit" class="btn btn-success">Search</button>
+			        </form>
+						
+					
+		          
 		        </div><!--/.nav-collapse -->
 		      </div>
 		    </div>

@@ -1,0 +1,144 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Selection
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+	{% block form %}
+		<div class="well">
+			<form id="form-select" method="post" action="{{ path('g2s_app_selection') }}">
+				<div class="classicOptions">
+					<div id="searchDiv">
+						<label>Search : </label>
+						<input id="searchField" type="text" class="form-control" placeholder="Text input" style="width: 300px; display: inline;">
+					</div>
+					<div id="platformDiv">
+						<label>Platform : </label>
+						{% for platform in platforms %}
+							<label class="checkbox-inline">
+							  <input type="checkbox" id="checkbox-{{ platform.name|replace({' ': ''}) }}" value="{{ platform.id }}"> {{ platform.name }}
+							</label>
+						{% endfor %}
+					</div>
+
+					<div id="tagDiv">
+						<label>Tags : </label>
+						{% for tag in tags %}
+							<label class="checkbox-inline">
+							  <input type="checkbox" id="checkbox-{{ tag.name|replace({' ': ''}) }}" value="{{ tag.id }}"> {{ tag.name }}
+							</label>
+						{% endfor %}
+					</div>
+
+					<div id="markDiv">
+						<label>Minimum average mark : </label>
+						<select id="markForm" class="form-control" style="width: 70px; display: inline;">
+						  <option>0</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>
+						  <option>4</option>
+						  <option>5</option>
+						  <option>6</option>
+						  <option>7</option>
+						  <option>8</option>
+						  <option>9</option>
+						  <option>10</option>
+						  <option>11</option>
+						  <option>12</option>
+						  <option>13</option>
+						  <option>14</option>
+						  <option>15</option>
+						  <option>16</option>
+						  <option>17</option>
+						  <option>18</option>
+						  <option>19</option>
+						  <option>20</option>
+						</select>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+		<div id="loading" style="display: none;">Loading for Apps...</div>
+		<div id="results">
+
+		</div>
+	{% endblock %}
+
+
+
+
+	{#{% for app in apps %}
+
+		{{ include('G2sAppBundle:Apps:show-one.html.twig', {'app': app}) }}
+
+	{% endfor %}#}
+{% endblock %}
+
+
+{% block javascripts %}
+			
+	{{ parent() }}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+
+	<script>
+		$("#loading").hide();
+		$("#form-select").submit(function(){
+			$("#loading").show(); 
+		    var mark = $("#markForm").val();
+		    var search = $("#searchField").val();
+		    var platformsQueried = "{";
+		    var i = 0;
+		    {% for platform in platforms %}
+		    	if ($("#checkbox-{{ platform.name|replace({' ': ''}) }}").attr('checked')) {
+		    		if (i == 0) {
+		    			platformsQueried = platformsQueried + '"platform' + i + '":"' + {{ platform.id }} + '"';
+		    		}else{
+		    			platformsQueried = platformsQueried + ',"platform' + i + '":"' + {{ platform.id }} + '"';
+		    		}
+		    		i++;
+		    	};
+		    {% endfor %}
+		    if (i!=0) {platformsQueried += ","};
+		    platformsQueried = platformsQueried + '"nbplatforms":' + i + '}';
+		    var tagsQueried = "{";
+		    i=0;
+		    {% for tag in tags %}
+		    	if ($("#checkbox-{{ tag.name|replace({' ': ''}) }}").attr('checked')) {
+		    		if (i == 0) {
+		    			tagsQueried = tagsQueried + '"tag' + i + '":"' + {{ tag.id }} + '"';
+		    		}else{
+		    			tagsQueried = tagsQueried + ',"tag' + i + '":"' + {{ tag.id }} + '"';
+		    		}
+		    		i++;
+		    	};
+		    {% endfor %}
+		    if (i!=0) {tagsQueried += ","};
+		    tagsQueried = tagsQueried + '"nbtags":' + i + '}';
+
+		    $.ajax({
+		        type: "POST",
+		        url: "{{ path('g2s_app_selection')}}",
+		        data: {
+		        		mark: mark,
+						platformsQueried: platformsQueried,
+						tagsQueried: tagsQueried,
+						search: search		        		
+		        	  },
+		        cache: false,
+		        success: function(data){
+		        	$('#loading').hide();
+		            $('#results').html(data);
+		        }
+		    });    
+		    return false;
+		});
+
+
+	</script>		
+
+{% endblock %}

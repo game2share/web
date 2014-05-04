@@ -26,3 +26,13 @@ g2s_app_show_app_all:
 g2s_app_show_app_one:
     pattern:  /apps/show/{app_id}
     defaults: { _controller: G2sAppBundle:Apps:showOne }
+
+g2s_app_show_selected:
+    pattern:  /apps/selection
+    defaults: { _controller: G2sAppBundle:Apps:showSelected }
+
+g2s_app_selection:
+    pattern:  /apps/check-selection
+    defaults: { _controller: G2sAppBundle:Apps:selectApps }
+    requirements:
+        _method: POST
