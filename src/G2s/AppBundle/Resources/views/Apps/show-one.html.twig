@@ -10,74 +10,97 @@
 	{# Process mark averages #}
 	{% set globalAvg	= 0		%}
 	{% set platformsAvg = []	%}
-	{% set platformIt	= 0		%}
+	{% set nbAvg		= 0		%}
 
 	<div class="row">
 		<div class="col-md-12">
-		<h1><a href=" {{ path('g2s_app_show_app_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
-		<p>
+			<h1><a href=" {{ path('g2s_app_show_app_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
+			<hr/>
+		</div>
+		<div class="col-md-9">
 			{% for tag in app.tags %}
-				<span class="label label-primary">{{ tag.name }}</span>
+				<a href="{{ path('g2s_app_show_tag', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
 			{% endfor %}
-			{{ app.description }}
-		</p>
+			<p>{{ app.description }}</p>
 		</div>
 
 		<div class="col-md-3">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3>Available on</h3>
-				</div>
-				<div class="panel-body">
-					<ul>
-					{% for appInfo in app.appInfos %}
-						<li><a href='{{appInfo.downloadPath}}'>{{ appInfo.platform.name }}</a></li>
+			<div class="row">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h4>Download For :</h4>
+					</div>
+					<div class="panel-body">
+						{% if app.appInfos|length == 1 %}
+							{% set width	= 12 %}
+						{% elseif app.appInfos|length == 2 %}
+							{% set width	= 6 %}
+						{% else %}
+							{% set width	= 4 %}
+						{% endif %}
+						{% for appInfo in app.appInfos %}
+							<div class="col-sm-{{ width }}">
+								<a href='{{appInfo.downloadPath}}'>
+									<img src="/img/{{appInfo.platform.logoPath}}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
+									<br/>
+									{{ appInfo.platform.name }}
+								</a>
+							</div>
+
+							{# Process mark averages #}
+							{% set avg		= 0 %}
+							{% set markIt	= 0 %}
+
+							{% for mark in appInfo.marks %}
+								{% set avg		= avg + mark.mark %}
+								{% set markIt	= markIt + 1 %}
+							{% endfor %}
+
+							{% if markIt > 0 %}
+								{% set avg			= avg / markIt %}
+								{% set globalAvg	= globalAvg + avg %}
+								{% set nbAvg		= nbAvg + 1 %}
+							{% else %}
+								{% set avg = -1 %}
+							{% endif %}
+
+							{% set platformsAvg = platformsAvg | merge([avg]) %}
+
+						{% else %}
+							<p>Aucune plateforme supportée</p>
+						{% endfor %}
 
 						{# Process mark averages #}
-						{% set avg		= 0 %}
-						{% set markIt	= 0 %}
-						{% for mark in appInfo.marks %}
-							{% set avg		= avg + mark.mark %}
-							{% set markIt	= markIt + 1 %}
-						{% endfor %}
-						{% if markIt > 0 %}
-							{% set avg = avg / markIt %}
+						{% if nbAvg > 0 %}
+							{% set globalAvg = globalAvg / nbAvg %}
 						{% endif %}
-
-						{% set globalAvg = globalAvg + avg %}
-						{% set platformsAvg = platformsAvg | merge([avg]) %}
-						{% set platformIt = platformIt + 1 %}
-
-					{% else %}
-						<p>Aucune plateforme supportée</p>
-					{% endfor %}
-					</ul>
-
-					{# Process mark averages #}
-					{% set globalAvg = globalAvg / platformIt %}
+					</div>
+					<div class="panel-heading">
+						<h4>Marks : {{ globalAvg }} / 20</h4>
+					</div>
+					<div class="panel-body">
+						<ul>
+						{% set platformIt = 0 %}
+						{% for appInfo in app.appInfos %}
+							<li>
+								{{ appInfo.platform.name }} :
+								{% if platformsAvg[platformIt] != -1 %}
+									{{ platformsAvg[platformIt] }}
+								{% else %}
+									-
+								{% endif %}
+								/ 20
+							</li>
+							{% set platformIt = platformIt + 1 %}
+						{% endfor %}
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-md-3">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3>Marks : {{ globalAvg }} / 20</h3>
-				</div>
-				<div class="panel-body">
-					<ul>
-					{% set platformIt = 0 %}
-					{% for appInfo in app.appInfos %}
-						<li>{{ appInfo.platform.name }} : {{ platformsAvg[platformIt] }} / 20</li>
-						{% set platformIt = platformIt + 1 %}
-					{% endfor %}
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-6">
-			<h2>Comments</h2>
+		<div class="col-md-12">
+			<h2>Comments <a href="{{ path('g2s_app_add_comment', {'app_id': app.id}) }}" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Add</a> </h2>
 			{% for appInfo in app.appInfos %}
 				{% for comment in appInfo.comments %}
 					<div class="panel panel-info">
@@ -97,6 +120,6 @@
 		</div>
 	</div>
 
-	<hr>
+	<hr/>
 
 {% endblock %}
