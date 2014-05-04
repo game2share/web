@@ -41,7 +41,7 @@
 						{% for appInfo in app.appInfos %}
 							<div class="col-sm-{{ width }}">
 								<a href='{{appInfo.downloadPath}}'>
-									<img src="/web/web/img/{{appInfo.platform.logoPath}}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
+									<img src="{{ asset('/img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
 									<br/>
 									{{ appInfo.platform.name }}
 								</a>
