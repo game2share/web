@@ -11,64 +11,30 @@ class HomeController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('G2sAppBundle:Home:index.html.twig');
-    }
-
-	public function appsAction()
-	{
 		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:App');
-		$queriedApps	= $repository->findAll();
 
-		$apps			= array();
+		$apps			= $repository->findAll();
 
-		$i = 0;
-
-		foreach($queriedApps as $queriedApp)
-		{
-			$app				= array();
-			$globalAvgMark		= 0;
-
-			$app['app']			= $queriedApp;
-
-			$appInfos			= array();
-
-			$j = 0;
-
-			if(!is_null($queriedApp->getAppInfos()))
-			{
-				foreach($queriedApp->getAppInfos() as $queriedAppInfo)
-				{
-					$avgMark	= 0;
-
-					foreach($queriedAppInfo->getMarks() as $mark)
-						$avgMark += $mark->getMark();
-					if(count($queriedAppInfo->getMarks()) != 0)
-						$avgMark /= count($queriedAppInfo->getMarks());
-
-					$appInfos[$j] = array(
-						'platform'	=> $queriedAppInfo->getPlatform(),
-						'dlPath'	=> $queriedAppInfo->getDownloadPath(),
-						'comments'	=> $queriedAppInfo->getComments(),
-						'marks'		=> $queriedAppInfo->getMarks(),
-						'avgMark'	=> $avgMark
-					);
-
-					$globalAvgMark += $avgMark;
-				}
-			}
-
-			$app['appInfos']	= $appInfos;
-			if(count($appInfos))
-				$globalAvgMark /= count($appInfos);
-			$app['avgMark']		= $globalAvgMark;
-
-			$apps[$i]				= $app;
-			$i++;
-		}
+		if($apps == null)
+			throw $this->createNotFoundException('Apps not found');
 
 		return $this->render(
-			'G2sAppBundle:Apps:list.html.twig',
+			'G2sAppBundle:Home:index.html.twig',
 			array('apps' => $apps)
 		);
+    }
+
+	public function aboutAction()
+	{
+		return $this->render(
+			'G2sAppBundle:Home:about.html.twig', 
+			array('short' => false)
+			);
 	}
+
+	public function contactAction()
+	{
+        return $this->render('G2sAppBundle:Home:contact.html.twig');
+	}
+
 }

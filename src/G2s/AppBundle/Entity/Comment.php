@@ -33,9 +33,22 @@ class Comment
     /**
      * @var string
      *
+     * @ORM\Column(name="title", type="string", length=256)
+     */
+
+    private $title;
+    /**
+     * @var string
+     *
      * @ORM\Column(name="comment", type="string", length=2048)
      */
     private $comment;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="Mark")
+	 * @ORM\JoinColumn(name="id_mark", referencedColumnName="id")
+	 */
+	private $mark;
 
     /**
      * Get id
@@ -91,5 +104,51 @@ class Comment
     public function getAppInfo()
     {
         return $this->appInfo;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Comment
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set mark
+     *
+     * @param \G2s\AppBundle\Entity\Mark $mark
+     * @return Comment
+     */
+    public function setMark(\G2s\AppBundle\Entity\Mark $mark = null)
+    {
+        $this->mark = $mark;
+
+        return $this;
+    }
+
+    /**
+     * Get mark
+     *
+     * @return \G2s\AppBundle\Entity\Mark 
+     */
+    public function getMark()
+    {
+        return $this->mark;
     }
 }
