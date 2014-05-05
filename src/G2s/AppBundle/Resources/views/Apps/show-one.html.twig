@@ -211,9 +211,7 @@
 		        	  },
 		        cache: false,
 		        success: function(data){
-		        	var message = JSON.parse(data);
-		        	alert(message.message);
-		            
+					alert(data.message);
 		        }
 		    });    
 		    return false;

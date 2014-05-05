@@ -3,6 +3,7 @@
 namespace G2s\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use G2s\AppBundle\Entity\App;
 use G2s\AppBundle\Entity\Mark;
 use G2s\AppBundle\Entity\Comment;
@@ -44,7 +45,7 @@ class CommentsController extends Controller
 
 		$em->persist($comment);
 		$em->flush();
-		return new JsonResponse(array('message' => "Your comment was added successfully !"));
+		return new JsonResponse(array('message' => 'Your comment was successfully added !'));
 	}
 }
 
