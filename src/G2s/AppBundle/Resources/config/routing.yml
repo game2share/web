@@ -38,8 +38,10 @@ g2s_app_selection:
         _method: POST
 
 g2s_app_add_comment:
-    pattern:  /comment/add/{app_id}
+    pattern:  /comment/add
     defaults: { _controller: G2sAppBundle:Comments:add }
+    requirements:
+        _method: POST
 
 g2s_app_show_tag:
     pattern:  /tags/show/{tag_id}

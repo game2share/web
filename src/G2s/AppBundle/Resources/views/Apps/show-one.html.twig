@@ -21,7 +21,7 @@
 			{% for tag in app.tags %}
 				<a href="{{ path('g2s_app_show_tag', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
 			{% endfor %}
-			<p>{{ app.description }}</p>
+			<p style="margin-top: 10px;">{{ app.description }}</p>
 		</div>
 
 		<div class="col-md-3">
@@ -41,7 +41,7 @@
 						{% for appInfo in app.appInfos %}
 							<div class="col-sm-{{ width }}">
 								<a href='{{appInfo.downloadPath}}'>
-									<img src="{{ asset('/img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
+									<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
 									<br/>
 									{{ appInfo.platform.name }}
 								</a>
@@ -100,7 +100,70 @@
 		</div>
 
 		<div class="col-md-12">
-			<h2>Comments <a href="{{ path('g2s_app_add_comment', {'app_id': app.id}) }}" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Add</a> </h2>
+			<h2>Comments</h2>
+			<div id="divFormCom" class="well">
+				<form id="form-comment{{ app.id }}" method="POST">
+					<div class="form-group col-md-4">
+						<label for="titleCom" class="control-label col-md-3">Title : </label>
+						<div class="col-md-9" style="margin-top: -8px;">
+			            	<input type="text" placeholder="Title" class="form-control" id="titleCom{{ app.id }}" name="titleCom" style="display: inline;">
+			            </div>
+			        </div>
+			        <div class="form-group col-md-4">
+			        	<label for="platformCom" class="control-label col-md-4">Platform : </label>
+			        	<div class="col-md-8" style="margin-top: -8px;">
+				        	<select id="platformCom{{ app.id }}" class="form-control" name="platformCom">
+							  {% for appInfo in app.appInfos %}
+							  	<option value="{{ appInfo.platform.id }}">{{ appInfo.platform.name }}</option>
+							  {% endfor %}
+							</select>
+						</div>
+			        </div>
+			        <div class="form-group col-md-4">
+			        	<label for="markCom" class="control-label col-md-4">Mark : </label>
+			        	<div class="col-md-8" style="margin-top: -8px;">
+				        	<select id="markCom{{ app.id }}" class="form-control" name="markCom">
+				        	  <option value="">Add a Mark</option>
+							  <option>0</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>
+							  <option>4</option>
+							  <option>5</option>
+							  <option>6</option>
+							  <option>7</option>
+							  <option>8</option>
+							  <option>9</option>
+							  <option>10</option>
+							  <option>11</option>
+							  <option>12</option>
+							  <option>13</option>
+							  <option>14</option>
+							  <option>15</option>
+							  <option>16</option>
+							  <option>17</option>
+							  <option>18</option>
+							  <option>19</option>
+							  <option>20</option>
+							</select>
+						</div>
+			        </div>
+
+			        {#<div style="display: none;">
+			        	<input type="number" name="appCom" value="{{ app.id }}">
+			        </div>#}
+
+			        <div class="form-group">
+			        	<div>
+			        		<textarea id="textCom{{ app.id }}" class="form-control" name="commentCom" placeholder="Add your comment..." rows="3"></textarea>
+			        	</div>
+			        	<div style="margin-top: 8px;">
+			        		<button type="submit" id="submitCom{{ app.id }}" class="btn btn-primary form-control"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+			        	</div>
+			        </div>
+
+				</form>
+			</div>
 			{% for appInfo in app.appInfos %}
 				{% for comment in appInfo.comments %}
 					<div class="panel panel-info">
@@ -121,5 +184,42 @@
 	</div>
 
 	<hr/>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+
+	<script>
+		$("#form-comment{{ app.id }}").submit(function(){
+		    var mark = $("#markCom{{ app.id }}").val();
+		    var title = $("#titleCom{{ app.id }}").val();
+		    var comment = $("#textCom{{ app.id }}").val();
+		    var platform = $("#platformCom{{ app.id }}").val();
+		    var app = {{ app.id }};
+
+		    $.ajax({
+		        type: "POST",
+		        url: "{{ path('g2s_app_add_comment')}}",
+		        data: {
+		        		mark: mark,
+						title: title,
+						comment: comment,
+						platform: platform,
+						app: app		        		
+		        	  },
+		        cache: false,
+		        success: function(data){
+		        	var message = JSON.parse(data);
+		        	alert(message.message);
+		            
+		        }
+		    });    
+		    return false;
+		});
+
+
+	</script>		
 
 {% endblock %}
