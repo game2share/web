@@ -10,11 +10,7 @@
     <link type="text/css" rel="stylesheet" href="../../web/css/jquery.autocomplete.css" />
     <script type="text/javascript" src="../../web/js/jquery.js"></script>
     <script type="text/javascript" src="../../web/js/jquery-autocomplete/jquery.autocomplete.js"></script>
- <script type="text/javascript">
-$(document).ready(function() {
-    $('#tags').autocomplete('autocompleteacc.php');
-});
-</script>
+
 
   <h1>AutoComplete</h1>
 
@@ -22,4 +18,35 @@ $(document).ready(function() {
         <label for="tags">Tags: </label>
         <input id="tags">
     </div>
+
+   <script type="text/javascript">
+$(document).ready(function() {
+  var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+</script>
 {% endblock %}
