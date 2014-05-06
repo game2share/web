@@ -17,7 +17,7 @@ class AppsController extends Controller
 	public function showOneAction($app_id)
 	{
 		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:App');
-		$app;
+		$app			= null;
 
 		if(is_numeric($app_id))
 			$app	= $repository->findOneById($app_id);
@@ -65,18 +65,41 @@ class AppsController extends Controller
 
 	public function selectAppsAction()
 	{
-	    $request = $this->container->get('request');
+	    $request	= $this->container->get('request');
 
-	    
-	    $em = $this->container->get('doctrine')->getEntityManager();
+	    $search		= "";
+	    $search		= $request->request->get('search');
+	    $mark		= intval($request->request->get('mark'));
+	    $tags		= json_decode($request->request->get('tagsQueried'), true);
+	    $platforms	= json_decode($request->request->get('platformsQueried'), true);
 
-	    $search = "";
-	    $search = $request->request->get('search');
-	    $mark = intval($request->request->get('mark'));
-	    $tags = json_decode($request->request->get('tagsQueried'), true);
-	    $platforms = json_decode($request->request->get('platformsQueried'), true);
+		$apps		= $this->searchApps($search, $mark, $tags, $platforms);
 
-        $tagsQuery = "";
+	    if($request->isXmlHttpRequest())
+	    {
+			return $this->container->get('templating')->renderResponse('G2sAppBundle:Apps:show-all-nolayout.html.twig', array(
+	            'apps' => $apps,
+	            ));
+	    }else{
+
+			return $this->container->get('templating')->renderResponse('G2sAppBundle:Apps:show-all.html.twig', array(
+	            'apps' => $apps,
+	            ));
+	    }
+	}
+
+	/**
+	 * Search apps
+	 * \param $search		string to find in app name
+	 * \param $mark			minimal mark
+	 * \param $tags			array of tags
+	 * \param $platforms	array of platforms
+	 */
+	public function searchApps($search, $mark, $tags, $platforms)
+	{
+	    $em			= $this->container->get('doctrine')->getEntityManager();
+
+        $tagsQuery	= "";
         if ($tags['nbtags'] != 0) {
 	       	for ($i=0; $i < $tags['nbtags']; $i++) { 
 	       		if ($i == 0) {
@@ -85,11 +108,11 @@ class AppsController extends Controller
 					$tagsQuery = $tagsQuery . " OR tag.id = " . $tags['tag' . $i];
 				}
 	       	}
-	        	
+
 	       	$tagsQuery = $tagsQuery . ")";
 	    }
 
-	    $platformsQuery = "";
+	    $platformsQuery	= "";
 	    if ($platforms['nbplatforms'] != 0) {
 	      	for ($i=0; $i < $platforms['nbplatforms']; $i++) { 
 	       		if ($i == 0) {
@@ -117,24 +140,7 @@ class AppsController extends Controller
 		              $secndquery
 		          )->setParameter('mark', $mark);
 
-        $apps = $query->getResult();
-
-
-	        
-	    if($request->isXmlHttpRequest())
-	    {
-	    	return $this->container->get('templating')->renderResponse('G2sAppBundle:Apps:show-all-nolayout.html.twig', array(
-	            'apps' => $apps,
-	            ));
-	    }else{
-	    	
-			return $this->container->get('templating')->renderResponse('G2sAppBundle:Apps:show-all.html.twig', array(
-	            'apps' => $apps,
-
-	            ));
-		
-	    }
-		
+        return $query->getResult();
 	}
 }
 
