@@ -14,12 +14,12 @@
 
 	<div class="row">
 		<div class="col-md-12">
-			<h1><a href=" {{ path('g2s_app_show_app_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
+			<h1><a href=" {{ path('g2s_app_apps_show_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
 			<hr/>
 		</div>
 		<div class="col-md-9">
 			{% for tag in app.tags %}
-				<a href="{{ path('g2s_app_show_tag', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
+				<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
 			{% endfor %}
 			<p style="margin-top: 10px;">{{ app.description }}</p>
 		</div>
@@ -201,7 +201,7 @@
 
 		    $.ajax({
 		        type: "POST",
-		        url: "{{ path('g2s_app_add_comment')}}",
+		        url: "{{ path('g2s_app_comments_add')}}",
 		        data: {
 		        		mark: mark,
 						title: title,

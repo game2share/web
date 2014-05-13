@@ -1,3 +1,4 @@
+# General
 g2s_app_homepage:
     pattern:  /
     defaults: { _controller: G2sAppBundle:Home:index }
@@ -10,8 +11,8 @@ g2s_app_contact:
     pattern:  /contact/
     defaults: { _controller: G2sAppBundle:Home:contact }
 
-
-g2s_app_list_apps:
+# Apps
+g2s_app_apps_list:
     pattern:  /apps
     defaults: { _controller: G2sAppBundle:Home:apps }
 
@@ -19,30 +20,32 @@ g2s_app_autocompletepage:
     pattern:  /autocomplete
     defaults: { _controller: G2sAppBundle:Autocomplete:index }
 
-g2s_app_show_app_all:
+g2s_app_apps_show_all:
     pattern:  /apps/show/
     defaults: { _controller: G2sAppBundle:Apps:showAll }
 
-g2s_app_show_app_one:
+g2s_app_apps_show_one:
     pattern:  /apps/show/{app_id}
     defaults: { _controller: G2sAppBundle:Apps:showOne }
 
-g2s_app_show_selected:
+g2s_app_apps_show_selected:
     pattern:  /apps/selection
     defaults: { _controller: G2sAppBundle:Apps:showSelected }
 
-g2s_app_selection:
+g2s_app_apps_selection:
     pattern:  /apps/check-selection
     defaults: { _controller: G2sAppBundle:Apps:selectApps }
     requirements:
         _method: POST
 
-g2s_app_add_comment:
+# Comments
+g2s_app_comments_add:
     pattern:  /comment/add
     defaults: { _controller: G2sAppBundle:Comments:add }
     requirements:
         _method: POST
 
-g2s_app_show_tag:
+# Tags
+g2s_app_tags_show:
     pattern:  /tags/show/{tag_id}
     defaults: { _controller: G2sAppBundle:Tags:show }
