@@ -27,11 +27,11 @@
 		            <li class="dropdown">
 		              <a href="#" class="dropdown-toggle" data-toggle="dropdown">By Platform <b class="caret"></b></a>
 		              <ul class="dropdown-menu">
-		                <li><a href="#">Linux</a></li>
-		                <li class="divider"></li>
-		                <li class="dropdown-header">Smartphone</li>
-		                <li><a href="#">Android</a></li>
-		                <li><a href="#">Windows Phone</a></li>
+						{{ render(controller('G2sAppBundle:Platforms:listHeader')) }}
+		              </ul>
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown">By Tags <b class="caret"></b></a>
+		              <ul class="dropdown-menu">
+						{{ render(controller('G2sAppBundle:Tags:listHeader')) }}
 		              </ul>
 		            </li>
 					<li><a href="{{ path('g2s_app_about') }}">About</a></li>

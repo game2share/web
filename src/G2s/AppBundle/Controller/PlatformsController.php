@@ -27,5 +27,16 @@ class PlatformsController extends Controller
 			'appInfos' => $platform->getAppInfos()
 		));
 	}
+
+	public function listHeaderAction()
+	{
+		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
+		$platforms		= $repository->findAll();
+
+		return $this->render(
+			'G2sAppBundle:Platforms:header-platforms.html.twig',
+			array('platforms' => $platforms)
+		);
+	}
 }
 

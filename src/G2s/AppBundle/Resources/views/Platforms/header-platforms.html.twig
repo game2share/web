@@ -1,0 +1,3 @@
+{% for platform in platforms %}
+	<li><a href='{{ path('g2s_app_platforms_show', {'platform_id': platform.id}) }}'>{{ platform.name }}</a></li>
+{% endfor %}

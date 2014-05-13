@@ -27,5 +27,16 @@ class TagsController extends Controller
 			'apps' => $tag->getApps()
 		));
 	}
+
+	public function listHeaderAction()
+	{
+		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:Tag');
+		$tags			= $repository->findAll();
+
+		return $this->render(
+			'G2sAppBundle:Tags:header-tags.html.twig',
+			array('tags' => $tags)
+		);
+	}
 }
 
