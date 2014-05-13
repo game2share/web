@@ -97,7 +97,7 @@ class AppsController extends Controller
 	 */
 	public function searchApps($search, $mark, $tags, $platforms)
 	{
-	    $em			= $this->container->get('doctrine')->getEntityManager();
+	    $em			= $this->container->get('doctrine')->getManager();
 
 		$markQuery = "";
 		if ($mark != null && $mark != 0) {
