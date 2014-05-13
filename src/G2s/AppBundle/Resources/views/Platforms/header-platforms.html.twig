@@ -1,3 +1,9 @@
 {% for platform in platforms %}
-	<li><a href='{{ path('g2s_app_platforms_show', {'platform_id': platform.id}) }}'>{{ platform.name }}</a></li>
+	<li>
+		<a href='{{ path('g2s_app_platforms_show', {'platform_id': platform.id}) }}'>
+			<img src='{{ asset('img/' ~ platform.logoPath) }}' alt={{ platform.name }}/>
+			<br />
+			{{ platform.name }}
+		</a>
+	</li>
 {% endfor %}
