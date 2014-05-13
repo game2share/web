@@ -92,8 +92,8 @@ class AppsController extends Controller
 	 * Search apps
 	 * \param $search		string to find in app name
 	 * \param $mark			minimal mark
-	 * \param $tags			array of tags
-	 * \param $platforms	array of platforms
+	 * \param $tags			array of tags id
+	 * \param $platforms	array of platforms id
 	 */
 	public function searchApps($search, $mark, $tags, $platforms)
 	{
@@ -101,37 +101,51 @@ class AppsController extends Controller
 
 		$markQuery = "";
 		if ($mark != null && $mark != 0) {
-			$markQuery = "AND appinfos.average_mark >= :mark";
+			$markQuery = " AND appinfos.average_mark >= :mark";
 		}
 
         $tagsQuery	= "";
-        if ($tags['nbtags'] != 0) {
-	       	for ($i=0; $i < $tags['nbtags']; $i++) { 
-	       		if ($i == 0) {
-					$tagsQuery = $tagsQuery . " AND (tag.id = " . $tags['tag' . $i];
-				}else{
-					$tagsQuery = $tagsQuery . " OR tag.id = " . $tags['tag' . $i];
+        if ($tags != null && count($tags) != 0) {
+
+			$isFirst = true;
+
+			$tagsQuery .= " AND tag.id in ( ";
+
+			foreach ($tags as $tag) {
+				if($isFirst) {
+					$isFirst = false;
+				} else {
+					$tagsQuery .= " , ";
 				}
+
+				$tagsQuery .= $tag;
 	       	}
 
-	       	$tagsQuery = $tagsQuery . ")";
+			$tagsQuery .= " )";
 	    }
 
-	    $platformsQuery	= "";
-	    if ($platforms['nbplatforms'] != 0) {
-	      	for ($i=0; $i < $platforms['nbplatforms']; $i++) { 
-	       		if ($i == 0) {
-					$platformsQuery = $platformsQuery . " AND (appinfos.platform = " . $platforms['platform' . $i];
-				}else{
-					$platformsQuery = $platformsQuery . " OR appinfos.platform = " . $platforms['platform' . $i];
+        $platformsQuery	= "";
+        if ($platforms != null && count($platforms) != 0) {
+
+			$isFirst = true;
+
+			$platformsQuery .= " AND appinfos.platform in ( ";
+
+			foreach ($platforms as $platform) {
+				if($isFirst) {
+					$isFirst = false;
+				} else {
+					$platformsQuery .= " , ";
 				}
+
+				$platformsQuery .= $platform;
 	       	}
-	       	
-	       	$platformsQuery = $platformsQuery . ")";
+
+			$platformsQuery .= " )";
 	    }
 
 	    $searchQuery = "";
-	    if ($search != ""){
+	    if ($search != null && $search != ""){
 	       	$searchQuery = " AND (app.name LIKE '%" . $search . "%')";
 	    }
 	        

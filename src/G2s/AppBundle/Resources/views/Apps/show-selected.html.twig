@@ -18,7 +18,7 @@
 						<label>Platform : </label>
 						{% for platform in platforms %}
 							<label class="checkbox-inline">
-							  <input type="checkbox" id="checkbox-{{ platform.name|replace({' ': ''}) }}" value="{{ platform.id }}"> {{ platform.name }}
+								<input type="checkbox" id="checkbox-{{ platform.name|replace({' ': '', '/': ''}) }}" value="{{ platform.id }}"> {{ platform.name }}
 							</label>
 						{% endfor %}
 					</div>
@@ -91,34 +91,32 @@
 			$("#loading").show(); 
 		    var mark = $("#markForm").val();
 		    var search = $("#searchField").val();
-		    var platformsQueried = "{";
-		    var i = 0;
+		    var isFirst = true;
+		    var platformsQueried = "[";
 		    {% for platform in platforms %}
-		    	if ($("#checkbox-{{ platform.name|replace({' ': ''}) }}").attr('checked')) {
-		    		if (i == 0) {
-		    			platformsQueried = platformsQueried + '"platform' + i + '":"' + {{ platform.id }} + '"';
-		    		}else{
-		    			platformsQueried = platformsQueried + ',"platform' + i + '":"' + {{ platform.id }} + '"';
-		    		}
-		    		i++;
-		    	};
+				if ($("#checkbox-{{ platform.name|replace({' ': '', '/': ''}) }}").attr('checked')) {
+					if (isFirst) {
+						isFirst = false;
+					}else{
+						platformsQueried += ", ";
+					}
+					platformsQueried += {{ platform.id }};
+				}
 		    {% endfor %}
-		    if (i!=0) {platformsQueried += ","};
-		    platformsQueried = platformsQueried + '"nbplatforms":' + i + '}';
-		    var tagsQueried = "{";
-		    i=0;
+		    platformsQueried += ']';
+		    isFirst = true;
+		    var tagsQueried = "[";
 		    {% for tag in tags %}
-		    	if ($("#checkbox-{{ tag.name|replace({' ': ''}) }}").attr('checked')) {
-		    		if (i == 0) {
-		    			tagsQueried = tagsQueried + '"tag' + i + '":"' + {{ tag.id }} + '"';
-		    		}else{
-		    			tagsQueried = tagsQueried + ',"tag' + i + '":"' + {{ tag.id }} + '"';
-		    		}
-		    		i++;
-		    	};
+				if ($("#checkbox-{{ tag.name|replace({' ': '', '/': ''}) }}").attr('checked')) {
+					if (isFirst) {
+						isFirst = false;
+					}else{
+						tagsQueried += ", ";
+					}
+					tagsQueried += {{ tag.id }};
+				}
 		    {% endfor %}
-		    if (i!=0) {tagsQueried += ","};
-		    tagsQueried = tagsQueried + '"nbtags":' + i + '}';
+		    tagsQueried += ']';
 
 		    $.ajax({
 		        type: "POST",
@@ -137,8 +135,6 @@
 		    });    
 		    return false;
 		});
-
-
-	</script>		
+	</script>
 
 {% endblock %}
