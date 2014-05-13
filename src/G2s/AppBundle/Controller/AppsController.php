@@ -99,6 +99,11 @@ class AppsController extends Controller
 	{
 	    $em			= $this->container->get('doctrine')->getEntityManager();
 
+		$markQuery = "";
+		if ($mark != null && $mark != 0) {
+			$markQuery = "AND appinfos.average_mark >= :mark";
+		}
+
         $tagsQuery	= "";
         if ($tags['nbtags'] != 0) {
 	       	for ($i=0; $i < $tags['nbtags']; $i++) { 
@@ -132,13 +137,13 @@ class AppsController extends Controller
 	        
 	    $secndquery = 'SELECT app FROM G2sAppBundle:App app
 			              JOIN app.appInfos appinfos
-			              JOIN app.tags tag
-			              WHERE appinfos.average_mark >= :mark' . $tagsQuery . $platformsQuery . $searchQuery;
+						  JOIN app.tags tag
+						  WHERE true = true' . $markQuery . $tagsQuery . $platformsQuery . $searchQuery;
         
-        $query = $em
-		          ->createQuery(
-		              $secndquery
-		          )->setParameter('mark', $mark);
+		$query = $em->createQuery($secndquery);
+		if($markQuery != "") {
+			$query->setParameter('mark', $mark);
+		}
 
         return $query->getResult();
 	}
