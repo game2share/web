@@ -1,0 +1,206 @@
+{# Process mark averages #}
+{% set globalAvg	= 0		%}
+{% set platformsAvg = []	%}
+{% set nbAvg		= 0		%}
+
+<div class="row">
+	<div class="col-md-12">
+		<h1><a href=" {{ path('g2s_app_apps_show_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
+		<hr/>
+	</div>
+	<div class="col-md-9">
+		{% for tag in app.tags %}
+			<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
+		{% endfor %}
+		<p style="margin-top: 10px;">{{ app.description }}</p>
+	</div>
+
+	<div class="col-md-3">
+		<div class="row">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4>Download For :</h4>
+				</div>
+				<div class="panel-body">
+					{% if app.appInfos|length == 1 %}
+						{% set width	= 12 %}
+					{% elseif app.appInfos|length == 2 %}
+						{% set width	= 6 %}
+					{% else %}
+						{% set width	= 4 %}
+					{% endif %}
+					{% for appInfo in app.appInfos %}
+						<div class="col-sm-{{ width }}">
+							<a href='{{appInfo.downloadPath}}'>
+								<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
+								<br/>
+								{{ appInfo.platform.name }}
+							</a>
+						</div>
+
+						{# Process mark averages #}
+						{% set avg		= 0 %}
+						{% set markIt	= 0 %}
+
+						{% for mark in appInfo.marks %}
+							{% set avg		= avg + mark.mark %}
+							{% set markIt	= markIt + 1 %}
+						{% endfor %}
+
+						{% if markIt > 0 %}
+							{% set avg			= avg / markIt %}
+							{% set globalAvg	= globalAvg + avg %}
+							{% set nbAvg		= nbAvg + 1 %}
+						{% else %}
+							{% set avg = -1 %}
+						{% endif %}
+
+						{% set platformsAvg = platformsAvg | merge([avg]) %}
+
+					{% else %}
+						<p>Aucune plateforme supportée</p>
+					{% endfor %}
+
+					{# Process mark averages #}
+					{% if nbAvg > 0 %}
+						{% set globalAvg = globalAvg / nbAvg %}
+					{% endif %}
+				</div>
+				<div class="panel-heading">
+					<h4>Marks : {{ globalAvg }} / 20</h4>
+				</div>
+				<div class="panel-body">
+					<ul>
+					{% set platformIt = 0 %}
+					{% for appInfo in app.appInfos %}
+						<li>
+							{{ appInfo.platform.name }} :
+							{% if platformsAvg[platformIt] != -1 %}
+								{{ platformsAvg[platformIt] }}
+							{% else %}
+								-
+							{% endif %}
+							/ 20
+						</li>
+						{% set platformIt = platformIt + 1 %}
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<h2>Comments</h2>
+		<div id="divFormCom" class="well">
+			<form id="form-comment{{ app.id }}" method="POST">
+				<div class="form-group col-md-4">
+					<label for="titleCom" class="control-label col-md-3">Title : </label>
+					<div class="col-md-9" style="margin-top: -8px;">
+						<input type="text" placeholder="Title" class="form-control" id="titleCom{{ app.id }}" name="titleCom" style="display: inline;">
+					</div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="platformCom" class="control-label col-md-4">Platform : </label>
+					<div class="col-md-8" style="margin-top: -8px;">
+						<select id="platformCom{{ app.id }}" class="form-control" name="platformCom">
+						  {% for appInfo in app.appInfos %}
+							<option value="{{ appInfo.platform.id }}">{{ appInfo.platform.name }}</option>
+						  {% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="markCom" class="control-label col-md-4">Mark : </label>
+					<div class="col-md-8" style="margin-top: -8px;">
+						<select id="markCom{{ app.id }}" class="form-control" name="markCom">
+						  <option value="">Add a Mark</option>
+						  <option>0</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>
+						  <option>4</option>
+						  <option>5</option>
+						  <option>6</option>
+						  <option>7</option>
+						  <option>8</option>
+						  <option>9</option>
+						  <option>10</option>
+						  <option>11</option>
+						  <option>12</option>
+						  <option>13</option>
+						  <option>14</option>
+						  <option>15</option>
+						  <option>16</option>
+						  <option>17</option>
+						  <option>18</option>
+						  <option>19</option>
+						  <option>20</option>
+						</select>
+					</div>
+				</div>
+
+				{#<div style="display: none;">
+					<input type="number" name="appCom" value="{{ app.id }}">
+				</div>#}
+
+				<div class="form-group">
+					<div>
+						<textarea id="textCom{{ app.id }}" class="form-control" name="commentCom" placeholder="Add your comment..." rows="3"></textarea>
+					</div>
+					<div style="margin-top: 8px;">
+						<button type="submit" id="submitCom{{ app.id }}" class="btn btn-primary form-control"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+		{% for appInfo in app.appInfos %}
+			{% for comment in appInfo.comments %}
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<strong>{{ comment.title }}</strong>
+						{% if comment.mark is not null%}
+							{{ comment.mark.mark }} / 20
+						{% endif %}
+						<em>({{ appInfo.platform.name }})</em>
+					</div>
+					<div class="panel-body">
+						{{ comment.comment }}
+					</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+</div>
+
+<hr/>
+
+<script>
+	$("#form-comment{{ app.id }}").submit(function(){
+		var mark = $("#markCom{{ app.id }}").val();
+		var title = $("#titleCom{{ app.id }}").val();
+		var comment = $("#textCom{{ app.id }}").val();
+		var platform = $("#platformCom{{ app.id }}").val();
+		var app = {{ app.id }};
+
+		$.ajax({
+			type: "POST",
+			url: "{{ path('g2s_app_comments_add')}}",
+			data: {
+					mark: mark,
+					title: title,
+					comment: comment,
+					platform: platform,
+					app: app		        		
+				  },
+			cache: false,
+			success: function(data){
+				alert(data.message);
+			}
+		});    
+		return false;
+	});
+
+
+</script>		

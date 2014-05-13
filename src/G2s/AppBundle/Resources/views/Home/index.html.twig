@@ -8,8 +8,8 @@
   {{ parent() }}
   </div>
   <div class="jumbotron">
-	{{ include('G2sAppBundle:Home:about.html.twig', {'short': true}) }}
+	{{ include('G2sAppBundle:Home:about-nolayout.html.twig', {'short': true}) }}
   </div>
   <div class="container">
-	{{ include('G2sAppBundle:Apps:show-all.html.twig') }}
+	{{ include('G2sAppBundle:Apps:show-all-nolayout.html.twig') }}
 {% endblock %}
