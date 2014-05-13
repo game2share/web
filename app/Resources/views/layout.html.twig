@@ -25,11 +25,13 @@
 		            <li class="active"><a href="{{ path('g2s_app_homepage') }}">Home</a></li>
 		            <li><a href="{{ path('g2s_app_apps_show_all') }}">All Apps</a></li>
 		            <li class="dropdown">
-		              <a href="#" class="dropdown-toggle" data-toggle="dropdown">By Platform <b class="caret"></b></a>
+		              <a class="dropdown-toggle" data-toggle="dropdown">By Platform <b class="caret"></b></a>
 		              <ul class="dropdown-menu">
 						{{ render(controller('G2sAppBundle:Platforms:listHeader')) }}
 		              </ul>
-		              <a href="#" class="dropdown-toggle" data-toggle="dropdown">By Tags <b class="caret"></b></a>
+					</li>
+		            <li class="dropdown">
+		              <a class="dropdown-toggle" data-toggle="dropdown">By Tags <b class="caret"></b></a>
 		              <ul class="dropdown-menu">
 						{{ render(controller('G2sAppBundle:Tags:listHeader')) }}
 		              </ul>
