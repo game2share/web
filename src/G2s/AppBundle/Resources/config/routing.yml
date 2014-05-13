@@ -49,3 +49,8 @@ g2s_app_comments_add:
 g2s_app_tags_show:
     pattern:  /tags/show/{tag_id}
     defaults: { _controller: G2sAppBundle:Tags:show }
+
+# Platforms
+g2s_app_platforms_show:
+    pattern:  /platforms/show/{platform_id}
+    defaults: { _controller: G2sAppBundle:Platforms:show }
