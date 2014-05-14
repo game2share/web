@@ -7,5 +7,5 @@
 {% block body %}
 	{{ parent() }}
 
-	{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': app}) }}
+	{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': app, 'short': false}) }}
 {% endblock %}
