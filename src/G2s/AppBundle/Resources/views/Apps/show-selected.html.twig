@@ -18,7 +18,7 @@
 						<label>Platform : </label>
 						{% for platform in platforms %}
 							<label class="checkbox-inline">
-								<input type="checkbox" id="checkbox-{{ platform.id }}" value="{{ platform.id }}"> {{ platform.name }}
+								<input type="checkbox" id="checkbox-platform{{ platform.id }}" value="{{ platform.id }}"> {{ platform.name }}
 							</label>
 						{% endfor %}
 					</div>
@@ -27,7 +27,7 @@
 						<label>Tags : </label>
 						{% for tag in tags %}
 							<label class="checkbox-inline">
-							  <input type="checkbox" id="checkbox-{{ tag.id }}" value="{{ tag.id }}"> {{ tag.name }}
+							  <input type="checkbox" id="checkbox-tag{{ tag.id }}" value="{{ tag.id }}"> {{ tag.name }}
 							</label>
 						{% endfor %}
 					</div>
@@ -83,7 +83,7 @@
 		    var isFirst = true;
 		    var platformsQueried = "[";
 		    {% for platform in platforms %}
-				if ($("#checkbox-{{ platform.id }}").prop('checked')) {
+				if ($("#checkbox-platform{{ platform.id }}").prop('checked')) {
 					if (isFirst) {
 						isFirst = false;
 					}else{
@@ -96,7 +96,7 @@
 		    isFirst = true;
 		    var tagsQueried = "[";
 		    {% for tag in tags %}
-				if ($("#checkbox-{{ tag.id }}").prop('checked')) {
+				if ($("#checkbox-tag{{ tag.id }}").prop('checked')) {
 					if (isFirst) {
 						isFirst = false;
 					}else{
