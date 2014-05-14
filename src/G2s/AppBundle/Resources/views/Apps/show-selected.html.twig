@@ -12,7 +12,11 @@
 				<div class="classicOptions">
 					<div id="searchDiv">
 						<label>Search : </label>
-						<input id="searchField" type="text" class="form-control" placeholder="Text input" style="width: 300px; display: inline;">
+						<input id="searchField" type="text" class="form-control" placeholder="Text input" style="width: 300px; display: inline;"
+							{% if previous_search is not null %}
+								value="{{ previous_search }}"
+							{% endif %}
+						>
 					</div>
 					<div id="platformDiv">
 						<label>Platform : </label>

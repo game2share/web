@@ -48,7 +48,7 @@ class AppsController extends Controller
 		);
 	}
 
-	public function showSelectedAction($apps = null)
+	public function showSelectedAction($apps = null, $previous_search = null)
 	{
 		$tagRepository		= $this->getDoctrine()->getRepository('G2sAppBundle:Tag');
 		$platformRepository = $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
@@ -59,7 +59,7 @@ class AppsController extends Controller
 
 		return $this->render(
 			'G2sAppBundle:Apps:show-selected.html.twig',
-			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps)
+			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps, 'previous_search' => $previous_search)
 		);
 	}
 
@@ -81,7 +81,7 @@ class AppsController extends Controller
 	            'apps' => $apps,
 	            ));
 	    }else{
-			return $this->showSelectedAction($apps);
+			return $this->showSelectedAction($apps, $search);
 	    }
 	}
 
