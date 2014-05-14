@@ -54,6 +54,7 @@ class AppInfo
 
 	/**
 	 * @ORM\OneToMany(targetEntity="Comment", mappedBy="appInfo")
+	 * @ORM\OrderBy({"id" = "DESC"})
 	 */
 	private $comments;
 
