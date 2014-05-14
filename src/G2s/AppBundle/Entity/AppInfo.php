@@ -38,6 +38,13 @@ class AppInfo
      */
     private $downloadPath;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="manual", type="string", length=8192)
+	 */
+	private $manual;
+
     /**
      * @var integer
      *
@@ -196,5 +203,51 @@ class AppInfo
     public function getMarks()
     {
         return $this->marks;
+    }
+
+    /**
+     * Set manual
+     *
+     * @param string $manual
+     * @return AppInfo
+     */
+    public function setManual($manual)
+    {
+        $this->manual = $manual;
+
+        return $this;
+    }
+
+    /**
+     * Get manual
+     *
+     * @return string 
+     */
+    public function getManual()
+    {
+        return $this->manual;
+    }
+
+    /**
+     * Set average_mark
+     *
+     * @param integer $averageMark
+     * @return AppInfo
+     */
+    public function setAverageMark($averageMark)
+    {
+        $this->average_mark = $averageMark;
+
+        return $this;
+    }
+
+    /**
+     * Get average_mark
+     *
+     * @return integer 
+     */
+    public function getAverageMark()
+    {
+        return $this->average_mark;
     }
 }

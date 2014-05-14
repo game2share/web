@@ -13,6 +13,37 @@
 			<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
 		{% endfor %}
 		<p style="margin-top: 10px;">{{ app.description }}</p>
+		{% if not short %}
+			<ul class="nav nav-tabs">
+				{% set isFirst = true %}
+				{% for appInfo in app.appInfos %}
+					{% if appInfo.manual|length %}
+						{% if isFirst %}
+							<li class="active">
+							{% set isFirst = false %}
+						{% else %}
+							<li>
+						{% endif %}
+
+						<a href="#manual-platform{{ appInfo.platform.id }}" data-toggle="tab">{{ appInfo.platform.name }}</a></li>
+
+					{% endif %}
+				{% endfor %}
+			</ul>
+			<div class="tab-content">
+				{% set isFirst = true %}
+				{% for appInfo in app.appInfos %}
+					{% if appInfo.manual|length %}
+						<div class="tab-pane
+							{% if isFirst %}
+								active
+								{% set isFirst = false %}
+							{% endif %}
+						" id="manual-platform{{ appInfo.platform.id }}">{{appInfo.manual}}</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="col-md-3">
