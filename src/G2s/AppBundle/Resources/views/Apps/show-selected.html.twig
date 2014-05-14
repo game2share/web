@@ -1,44 +1,52 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-	{{ parent() }} - Selection
+	{{ parent() }} - Search
 {% endblock %}
 
 {% block body %}
 	{{ parent() }}
 	{% block form %}
 		<div class="well">
-			<form id="form-select" method="post">
-				<div class="classicOptions">
-					<div id="searchDiv">
-						<label>Search : </label>
-						<input id="searchField" type="text" class="form-control" placeholder="Text input" style="width: 300px; display: inline;"
+			<form class="form-horizontal" id="form-select" method="post">
+				<div class="form-group">
+					<label class="col-md-3">Search : </label>
+					<div class="col-md-9">
+						<input id="searchField" type="text" class="form-control" placeholder="Text input"
 							{% if previous_search is not null %}
 								value="{{ previous_search }}"
 							{% endif %}
 						>
 					</div>
-					<div id="platformDiv">
-						<label>Platform : </label>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3">Platform : </label>
+					<div class="col-md-9" align="left">
 						{% for platform in platforms %}
 							<label class="checkbox-inline">
+								<img src='{{ asset('img/' ~ platform.logoPath) }}' alt={{ platform.name }}/>
+								<br />
 								<input type="checkbox" id="checkbox-platform{{ platform.id }}" value="{{ platform.id }}"> {{ platform.name }}
 							</label>
 						{% endfor %}
 					</div>
+				</div>
 
-					<div id="tagDiv">
-						<label>Tags : </label>
+				<div class="form-group">
+					<label class="col-md-3">Tags : </label>
+					<div class="col-md-9" align="left">
 						{% for tag in tags %}
 							<label class="checkbox-inline">
 							  <input type="checkbox" id="checkbox-tag{{ tag.id }}" value="{{ tag.id }}"> {{ tag.name }}
 							</label>
 						{% endfor %}
 					</div>
+				</div>
 
-					<div id="markDiv">
-						<label>Minimum average mark : </label>
-						<select id="markForm" class="form-control" style="width: 70px; display: inline;">
+				<div class="form-group">
+					<label class="col-md-3">Minimum average mark : </label>
+					<div class="col-md-9">
+						<select id="markForm" class="form-control">
 						  <option>0</option>
 						  <option>1</option>
 						  <option>2</option>
@@ -62,12 +70,14 @@
 						  <option>20</option>
 						</select>
 					</div>
+				</div>
 
+				<div class="form-group">
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
 			</form>
 		</div>
-		<div id="loading" style="display: none;">Loading for Apps...</div>
+		<div id="loading">Loading for Apps...</div>
 		<div id="results">
 			{% if app is not null%}
 				{{ include('G2sAppBundle:Apps:show-all-nolayout.html.twig', {'apps': apps}) }}

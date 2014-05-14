@@ -12,7 +12,7 @@
 		{% for tag in app.tags %}
 			<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
 		{% endfor %}
-		<p style="margin-top: 10px;">{{ app.description }}</p>
+		<p>{{ app.description }}</p>
 		{% if not short %}
 			<ul class="nav nav-tabs">
 				{% set isFirst = true %}
@@ -129,13 +129,13 @@
 					<div class="form-group">
 						<div class="col-md-4">
 							<label for="titleCom" class="control-label col-md-3">Title : </label>
-							<div class="col-md-9" style="margin-top: -8px;">
+							<div class="col-md-9">
 								<input type="text" placeholder="Title" class="form-control" id="titleCom{{ app.id }}" name="titleCom" style="display: inline;">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<label for="platformCom" class="control-label col-md-4">Platform : </label>
-							<div class="col-md-8" style="margin-top: -8px;">
+							<div class="col-md-8">
 								<select id="platformCom{{ app.id }}" class="form-control" name="platformCom">
 								  {% for appInfo in app.appInfos %}
 									<option value="{{ appInfo.platform.id }}">{{ appInfo.platform.name }}</option>
@@ -145,7 +145,7 @@
 						</div>
 						<div class="col-md-4">
 							<label for="markCom" class="control-label col-md-4">Mark : </label>
-							<div class="col-md-8" style="margin-top: -8px;">
+							<div class="col-md-8">
 								<select id="markCom{{ app.id }}" class="form-control" name="markCom">
 								  <option value="">Add a Mark</option>
 								  <option>0</option>
