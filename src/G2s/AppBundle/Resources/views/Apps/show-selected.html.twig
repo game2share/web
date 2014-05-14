@@ -21,7 +21,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-md-3">Platform : </label>
-					<div class="col-md-9" align="left">
+					<div class="col-md-9">
 						{% for platform in platforms %}
 							<label class="checkbox-inline">
 								<img src='{{ asset('img/' ~ platform.logoPath) }}' alt={{ platform.name }}/>
@@ -34,7 +34,7 @@
 
 				<div class="form-group">
 					<label class="col-md-3">Tags : </label>
-					<div class="col-md-9" align="left">
+					<div class="col-md-9">
 						{% for tag in tags %}
 							<label class="checkbox-inline">
 							  <input type="checkbox" id="checkbox-tag{{ tag.id }}" value="{{ tag.id }}"> {{ tag.name }}
