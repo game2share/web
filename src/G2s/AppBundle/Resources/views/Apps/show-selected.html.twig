@@ -65,7 +65,9 @@
 		</div>
 		<div id="loading" style="display: none;">Loading for Apps...</div>
 		<div id="results">
-
+			{% if app is not null%}
+				{{ include('G2sAppBundle:Apps:show-all-nolayout.html.twig', {'apps': apps}) }}
+			{% endif %}
 		</div>
 	{% endblock %}
 

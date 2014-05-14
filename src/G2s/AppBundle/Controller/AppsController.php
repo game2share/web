@@ -48,18 +48,18 @@ class AppsController extends Controller
 		);
 	}
 
-	public function showSelectedAction()
+	public function showSelectedAction($apps = null)
 	{
 		$tagRepository		= $this->getDoctrine()->getRepository('G2sAppBundle:Tag');
 		$platformRepository = $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
 		$tags 			= $tagRepository->findAll();
 		$platforms      = $platformRepository->findAll();
-		if($tags == null)
+		if($tags == null || $platforms == null)
 			throw $this->createNotFoundException('Apps not found');
 
 		return $this->render(
 			'G2sAppBundle:Apps:show-selected.html.twig',
-			array('tags' => $tags, 'platforms' => $platforms)
+			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps)
 		);
 	}
 
@@ -81,10 +81,7 @@ class AppsController extends Controller
 	            'apps' => $apps,
 	            ));
 	    }else{
-
-			return $this->container->get('templating')->renderResponse('G2sAppBundle:Apps:show-all.html.twig', array(
-	            'apps' => $apps,
-	            ));
+			return $this->showSelectedAction($apps);
 	    }
 	}
 

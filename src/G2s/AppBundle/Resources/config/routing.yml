@@ -29,11 +29,13 @@ g2s_app_apps_show_one:
     defaults: { _controller: G2sAppBundle:Apps:showOne }
 
 g2s_app_apps_show_selected:
-    pattern:  /apps/selection
+    pattern:  /apps/search
     defaults: { _controller: G2sAppBundle:Apps:showSelected }
+    requirements:
+        _method: GET
 
 g2s_app_apps_selection:
-    pattern:  /apps/check-selection
+    pattern:  /apps/search
     defaults: { _controller: G2sAppBundle:Apps:selectApps }
     requirements:
         _method: POST
