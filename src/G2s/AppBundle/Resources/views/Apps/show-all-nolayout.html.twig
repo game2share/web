@@ -1,6 +1,7 @@
 {% for app in apps %}
 
-		{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': app}) }}
+	{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': app}) }}
 
-
+{% else %}
+	<div class="alert alert-danger"><h1>No application found.</h1><div>
 {% endfor %}
