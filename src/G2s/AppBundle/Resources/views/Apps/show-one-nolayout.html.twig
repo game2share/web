@@ -62,7 +62,7 @@
 					{% endif %}
 					{% for appInfo in app.appInfos %}
 						<div class="col-sm-{{ width }}">
-							<a href='{{appInfo.downloadPath}}'>
+							<a href='http://{{appInfo.downloadPath}}'>
 								<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
 								<br/>
 								{{ appInfo.platform.name }}
