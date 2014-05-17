@@ -12,6 +12,27 @@ use G2s\AppBundle\Entity\AppInfo;
 
 class CommentsController extends Controller
 {
+	public function showAction($app_id)
+	{
+	    $em			= $this->container->get('doctrine')->getManager();
+		$query		= $em->createQuery("
+			SELECT		comment
+			FROM		G2sAppBundle:Comment comment
+			JOIN		comment.appInfo appInfo
+			WHERE		appInfo.app = :app_id
+			ORDER BY	appInfo.app DESC
+		");
+
+		$query->setParameter('app_id', $app_id);
+
+		$comments	= $query->getResult();
+
+		return $this->render(
+			'G2sAppBundle:Apps:show-all-comment-nolayout.html.twig',
+			array('comments' => $comments)
+		);
+	}
+
 	public function addAction()
 	{
 		$request = $this->container->get('request');
@@ -32,7 +53,7 @@ class CommentsController extends Controller
 		$comment->setTitle($title);
 		$comment->setComment($commentText);
 
-		if(isset($mark)){
+		if($mark != null){
 			$newMark = new Mark();
 			$newMark->setAppInfo($appInfo[0]);
 			$newMark->setMark($mark);
@@ -45,6 +66,7 @@ class CommentsController extends Controller
 
 		$em->persist($comment);
 		$em->flush();
+
 		return new JsonResponse(array('message' => 'Your comment was successfully added !'));
 	}
 }

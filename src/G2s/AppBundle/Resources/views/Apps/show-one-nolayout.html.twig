@@ -98,28 +98,36 @@
 					{# Process mark averages #}
 					{% if nbAvg > 0 %}
 						{% set globalAvg = globalAvg / nbAvg %}
+					{% else %}
+						{% set globalAvg = -1 %}
 					{% endif %}
 				</div>
-				<div class="panel-heading">
-					<h4>Marks : {{ globalAvg }} / 20</h4>
-				</div>
-				<div class="panel-body">
-					<ul>
-					{% set platformIt = 0 %}
-					{% for appInfo in app.appInfos %}
-						<li>
-							{{ appInfo.platform.name }} :
-							{% if platformsAvg[platformIt] != -1 %}
-								{{ platformsAvg[platformIt] }}
-							{% else %}
-								-
-							{% endif %}
-							/ 20
-						</li>
-						{% set platformIt = platformIt + 1 %}
-					{% endfor %}
-					</ul>
-				</div>
+				{% if globalAvg != -1 %}
+					<div class="panel-heading">
+						<h4>Marks : {{ globalAvg }} / 20</h4>
+					</div>
+					<div class="panel-body">
+						<ul>
+						{% set platformIt = 0 %}
+						{% for appInfo in app.appInfos %}
+							<li>
+								{{ appInfo.platform.name }} :
+								{% if platformsAvg[platformIt] != -1 %}
+									{{ platformsAvg[platformIt] }}
+								{% else %}
+									-
+								{% endif %}
+								/ 20
+							</li>
+							{% set platformIt = platformIt + 1 %}
+						{% endfor %}
+						</ul>
+					</div>
+				{% else %}
+					<div class="panel-heading">
+						<h4>No Marks</h4>
+					</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -188,25 +196,9 @@
 					</div>
 				</form>
 			</div>
-			{% for appInfo in app.appInfos %}
-				{% for comment in appInfo.comments %}
-					{% if comment.mark is not null %}
-						{{ include('G2sAppBundle:Apps:show-one-comment-nolayout.html.twig', {'title': comment.title, 'comment': comment.comment, 'platformName': appInfo.platform.name, 'mark': comment.mark.mark }) }}
-					{% else %}
-						{{ include('G2sAppBundle:Apps:show-one-comment-nolayout.html.twig', {'title': comment.title, 'comment': comment.comment, 'platformName': appInfo.platform.name, 'mark': null }) }}
-					{% endif %}
-				{% else %}
-					<div class="alert alert-info">
-						<h1>
-							<span class="glyphicon glyphicon-arrow-up"/>
-							There is no comment : post yours !
-							<span class="glyphicon glyphicon-arrow-up"/>
-						</h1>
-					<div>
-				{% endfor %}
-			{% endfor %}
-			</div>
-		{% endif %}
+			{{ render(controller('G2sAppBundle:Comments:show', {'app_id': app.id})) }}
+		</div>
+	{% endif %}
 </div>
 
 <hr/>
@@ -215,12 +207,58 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script>
 		$("#form-comment{{ app.id }}").submit(function(){
+			var comment = $("#textCom{{ app.id }}").val();
+
+			if(comment != "")
+			{
+				var mark = $("#markCom{{ app.id }}").val();
+				var title = $("#titleCom{{ app.id }}").val();
+				var platform = $("#platformCom{{ app.id }}").val();
+				var platformName = $('#platformCom{{ app.id }} option:selected').html();
+				var app = {{ app.id }};
+
+				var commentDOM = '<div class="panel panel-info"><div class="panel-heading"><strong>' + title + '</strong>';
+
+				if(mark == "")
+					mark = null;
+				else
+					commentDOM += ' ' + mark + ' / 20';
+
+				commentDOM += '<em>(' + platformName + ')</em></div><div class="panel-body">' + comment + '</div></div>';
+
+				$.ajax({
+					type: "POST",
+					url: "{{ path('g2s_app_comments_add') }}",
+					data: {
+							mark: mark,
+							title: title,
+							comment: comment,
+							platform: platform,
+							app: app
+						  },
+					cache: false,
+					success: function(data){
+						$("#no-comment").remove();
+						$(commentDOM).insertAfter("#divFormCom");
+					}
+				});
+				return false;
+			}
+			else
 			var mark = $("#markCom{{ app.id }}").val();
 			var title = $("#titleCom{{ app.id }}").val();
-			var comment = $("#textCom{{ app.id }}").val();
 			var platform = $("#platformCom{{ app.id }}").val();
-			var platformName = $("#platformCom{{ app.id }}").text();
+			var platformName = $('#platformCom{{ app.id }} option:selected').html();
 			var app = {{ app.id }};
+
+			var commentDOM = '<div class="panel panel-info"><div class="panel-heading"><strong>' + title + '</strong>';
+
+			if(mark == "")
+				mark = null;
+			else
+				commentDOM += ' ' + mark + ' / 20';
+
+			commentDOM += '<em>(' + platformName + ')</em></div><div class="panel-body">' + comment + '</div></div>';
 
 			$.ajax({
 				type: "POST",
@@ -234,12 +272,13 @@
 					  },
 				cache: false,
 				success: function(data){
-					alert(data);
+					$("#no-comment").remove();
+					$(commentDOM).insertAfter("#divFormCom");
 				}
 			});
 			return false;
+				alert("You must add a comment");
 		});
-
 
 	</script>
 {% endif %}

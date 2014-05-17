@@ -1,0 +1,12 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<strong>{{ title }}</strong>
+		{% if mark is not null %}
+			{{ mark }} / 20
+		{% endif %}
+		<em>({{ platformName }})</em>
+	</div>
+	<div class="panel-body">
+		{{ comment }}
+	</div>
+</div>
