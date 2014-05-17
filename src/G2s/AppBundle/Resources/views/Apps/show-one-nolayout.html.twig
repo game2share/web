@@ -9,9 +9,12 @@
 		<hr/>
 	</div>
 	<div class="col-md-9">
-		{% for tag in app.tags %}
-			<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
-		{% endfor %}
+		<div>
+			{% for tag in app.tags %}
+				<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
+			{% endfor %}
+		</div>
+		<br/>
 		<p>{{ app.description }}</p>
 		{% if not short %}
 			<ul class="nav nav-tabs">
@@ -39,7 +42,7 @@
 								active
 								{% set isFirst = false %}
 							{% endif %}
-						" id="manual-platform{{ appInfo.platform.id }}">{{appInfo.manual}}</div>
+							" id="manual-platform{{ appInfo.platform.id }}"><br/>{{appInfo.manual}}</div>
 					{% endif %}
 				{% endfor %}
 			</div>
@@ -187,18 +190,19 @@
 			</div>
 			{% for appInfo in app.appInfos %}
 				{% for comment in appInfo.comments %}
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<strong>{{ comment.title }}</strong>
-							{% if comment.mark is not null%}
-								{{ comment.mark.mark }} / 20
-							{% endif %}
-							<em>({{ appInfo.platform.name }})</em>
-						</div>
-						<div class="panel-body">
-							{{ comment.comment }}
-						</div>
-					</div>
+					{% if comment.mark is not null %}
+						{{ include('G2sAppBundle:Apps:show-one-comment-nolayout.html.twig', {'title': comment.title, 'comment': comment.comment, 'platformName': appInfo.platform.name, 'mark': comment.mark.mark }) }}
+					{% else %}
+						{{ include('G2sAppBundle:Apps:show-one-comment-nolayout.html.twig', {'title': comment.title, 'comment': comment.comment, 'platformName': appInfo.platform.name, 'mark': null }) }}
+					{% endif %}
+				{% else %}
+					<div class="alert alert-info">
+						<h1>
+							<span class="glyphicon glyphicon-arrow-up"/>
+							There is no comment : post yours !
+							<span class="glyphicon glyphicon-arrow-up"/>
+						</h1>
+					<div>
 				{% endfor %}
 			{% endfor %}
 			</div>
@@ -207,31 +211,35 @@
 
 <hr/>
 
-<script>
-	$("#form-comment{{ app.id }}").submit(function(){
-		var mark = $("#markCom{{ app.id }}").val();
-		var title = $("#titleCom{{ app.id }}").val();
-		var comment = $("#textCom{{ app.id }}").val();
-		var platform = $("#platformCom{{ app.id }}").val();
-		var app = {{ app.id }};
+{% if not short %}
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>
+		$("#form-comment{{ app.id }}").submit(function(){
+			var mark = $("#markCom{{ app.id }}").val();
+			var title = $("#titleCom{{ app.id }}").val();
+			var comment = $("#textCom{{ app.id }}").val();
+			var platform = $("#platformCom{{ app.id }}").val();
+			var platformName = $("#platformCom{{ app.id }}").text();
+			var app = {{ app.id }};
 
-		$.ajax({
-			type: "POST",
-			url: "{{ path('g2s_app_comments_add')}}",
-			data: {
-					mark: mark,
-					title: title,
-					comment: comment,
-					platform: platform,
-					app: app		        		
-				  },
-			cache: false,
-			success: function(data){
-				alert(data.message);
-			}
-		});    
-		return false;
-	});
+			$.ajax({
+				type: "POST",
+				url: "{{ path('g2s_app_comments_add') }}",
+				data: {
+						mark: mark,
+						title: title,
+						comment: comment,
+						platform: platform,
+						app: app
+					  },
+				cache: false,
+				success: function(data){
+					alert(data);
+				}
+			});
+			return false;
+		});
 
 
-</script>		
+	</script>
+{% endif %}
