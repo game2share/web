@@ -22,8 +22,13 @@ class HomeController extends Controller
 
 		$platform = $repository->findBy(array("name" => $os));
 
-		if($platform == null || $platform[0]->getAppInfos() == null)
-			throw $this->createNotFoundException('Apps not found');
+		/*if($platform == null || $platform[0]->getAppInfos() == null){
+			return $this->render(
+				'G2sAppBundle:Home:index.html.twig',
+				array('appInfos' => null,
+					  'os' => $os)
+			);
+		}*/
 
 		return $this->render(
 			'G2sAppBundle:Home:index.html.twig',
