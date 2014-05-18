@@ -11,6 +11,7 @@ class AppsController extends Controller
 {
     public function indexAction()
     {
+
         return $this->render('G2sAppBundle:Home:index.html.twig');
     }
 

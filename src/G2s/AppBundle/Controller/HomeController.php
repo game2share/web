@@ -11,16 +11,24 @@ class HomeController extends Controller
 {
     public function indexAction()
     {
-		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:App');
+    	$agent = $_SERVER['HTTP_USER_AGENT'];
 
-		$apps			= $repository->findAll();
+		if(preg_match('/Linux/',$agent)) $os = 'Linux';
+		elseif(preg_match('/Win/',$agent)) $os = 'Windows';
+		elseif(preg_match('/Android/',$agent)) $os = 'Android';
+		else $os = 'UnKnown';
 
-		if($apps == null)
+		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
+
+		$platform = $repository->findBy(array("name" => $os));
+
+		if($platform == null || $platform[0]->getAppInfos() == null)
 			throw $this->createNotFoundException('Apps not found');
 
 		return $this->render(
 			'G2sAppBundle:Home:index.html.twig',
-			array('apps' => $apps)
+			array('appInfos' => $platform[0]->getAppInfos(),
+				  'os' => $os)
 		);
     }
 

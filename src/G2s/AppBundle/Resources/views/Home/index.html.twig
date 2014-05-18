@@ -6,10 +6,17 @@
 
 {% block body %}
   {{ parent() }}
+  {{ os }}
   </div>
   <div class="jumbotron">
 	{{ include('G2sAppBundle:Home:about-nolayout.html.twig', {'short': true}) }}
   </div>
   <div class="container">
-	{{ include('G2sAppBundle:Apps:show-all-nolayout.html.twig') }}
+  	<h2>For your system : {{ os }}</h2>
+	{% for appInfo in appInfos %}
+
+		{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': appInfo.app, 'short': true}) }}
+
+	{% endfor %}
+
 {% endblock %}
