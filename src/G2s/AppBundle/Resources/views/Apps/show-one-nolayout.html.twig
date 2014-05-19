@@ -94,6 +94,9 @@
 								<br/>
 								{{ detectOs.platform.name }}
 							</a>
+							{% if application.appInfos|length > 1 %}
+								<hr />
+							{% endif %}
 						</div>
 						{% set detectOsOffset = 1 %}
 					{% else %}
