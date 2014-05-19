@@ -7,10 +7,6 @@
 {% block body %}
 	{{ parent() }}
 
-	
-	{{ sessionName }}
-	{{ sessionSearch }}
-	{{ sessionPlatforms }}
 
 
 	{% block form %}
@@ -20,8 +16,8 @@
 					<label class="col-md-3">Nom à chercher : </label>
 					<div class="col-md-9">
 						<input id="searchField" type="text" class="form-control" placeholder=""
-							{% if previous_search is not null %}
-								value="{{ sessionSearch }}"
+							{% if app.session.get('search') is not null %}
+								value="{{ app.session.get('search') }}"
 							{% endif %}
 						>
 					</div>
@@ -30,10 +26,20 @@
 					<label class="col-md-3">Plateforme : </label>
 					<div class="col-md-9">
 						{% for platform in platforms %}
+							{% set checkIt = false %}
+							{% for p in app.session.get('platforms') %}
+								{% if p == platform.id %}
+									{% set checkIt = true %}
+								{% endif %}
+							{% endfor %}
 							<label class="checkbox-inline">
 								<img src='{{ asset('img/' ~ platform.logoPath) }}' alt={{ platform.name }}/>
 								<br />
-								<input type="checkbox" id="checkbox-platform{{ platform.id }}" value="{{ platform.id }}"> {{ platform.name }}
+								<input type="checkbox" id="checkbox-platform{{ platform.id }}" value="{{ platform.id }}"
+								{% if checkIt == true %}
+							  		checked
+							  	{% endif %}
+								> {{ platform.name }}
 							</label>
 						{% endfor %}
 					</div>
@@ -43,8 +49,18 @@
 					<label class="col-md-3">Tags : </label>
 					<div class="col-md-9">
 						{% for tag in tags %}
+							{% set checkIt = false %}
+							{% for t in app.session.get('tags') %}
+								{% if t == tag.id %}
+									{% set checkIt = true %}
+								{% endif %}
+							{% endfor %}
 							<label class="checkbox-inline">
-							  <input type="checkbox" id="checkbox-tag{{ tag.id }}" value="{{ tag.id }}"> {{ tag.name }}
+							  <input type="checkbox" id="checkbox-tag{{ tag.id }}" value="{{ tag.id }}" 
+							  {% if checkIt == true %}
+							  	checked
+							  {% endif %}
+							  > {{ tag.name }}
 							</label>
 						{% endfor %}
 					</div>
@@ -54,27 +70,13 @@
 					<label class="col-md-3">Note moyenne minimum : </label>
 					<div class="col-md-9">
 						<select id="markForm" class="form-control">
-						  <option>0</option>
-						  <option>1</option>
-						  <option>2</option>
-						  <option>3</option>
-						  <option>4</option>
-						  <option>5</option>
-						  <option>6</option>
-						  <option>7</option>
-						  <option>8</option>
-						  <option>9</option>
-						  <option>10</option>
-						  <option>11</option>
-						  <option>12</option>
-						  <option>13</option>
-						  <option>14</option>
-						  <option>15</option>
-						  <option>16</option>
-						  <option>17</option>
-						  <option>18</option>
-						  <option>19</option>
-						  <option>20</option>
+						  {% for i in 0..20 %}
+						  	{% if app.session.get('mark') == i %}
+						  		<option selected="selected">{{ i }}</option>
+						  	{% else %}
+						  		<option>{{ i }}</option>
+						  	{% endif %}
+						  {% endfor %}
 						</select>
 					</div>
 				</div>
@@ -83,6 +85,7 @@
 					<button type="submit" class="btn btn-primary">Chercher</button>
 				</div>
 			</form>
+		
 		</div>
 		<div id="loading">Chargement des applications ...</div>
 		<div id="results">
