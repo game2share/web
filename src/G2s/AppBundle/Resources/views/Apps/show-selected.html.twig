@@ -6,15 +6,22 @@
 
 {% block body %}
 	{{ parent() }}
+
+	
+	{{ sessionName }}
+	{{ sessionSearch }}
+	{{ sessionPlatforms }}
+
+
 	{% block form %}
 		<div class="well">
 			<form class="form-horizontal" id="form-select" method="post">
 				<div class="form-group">
 					<label class="col-md-3">Nom à chercher : </label>
 					<div class="col-md-9">
-						<input id="searchField" type="text" class="form-control" placeholder="Nom à chercher"
+						<input id="searchField" type="text" class="form-control" placeholder=""
 							{% if previous_search is not null %}
-								value="{{ previous_search }}"
+								value="{{ sessionSearch }}"
 							{% endif %}
 						>
 					</div>

@@ -6,11 +6,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use G2s\AppBundle\Entity\App;
 use G2s\AppBundle\Entity\Platform;
 use G2s\AppBundle\Entity\AppInfo;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 class HomeController extends Controller
 {
     public function indexAction()
     {
+
+    	$session = new Session();
+    	$session -> start();
+
+    	$session->set('name', 'user');
+    	$session->getFlashBag()->add('notice','profile updated');
+
+    	foreach ($session->getFlashBag()->get('notice', array()) as $message) {
+    		
+    		echo "<div class='flash-notice'>$message</div>";
+    	}
+
+
     	$agent = $_SERVER['HTTP_USER_AGENT'];
 
 		if(preg_match('/Linux/',$agent)) $os = 'Linux';

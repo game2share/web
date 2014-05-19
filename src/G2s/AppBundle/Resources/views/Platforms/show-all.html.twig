@@ -6,6 +6,10 @@
 
 {% block body %}
 	{{ parent() }}
+	{{ sessionName }}
+	{{ sessionMarks }}
+	{{ sessionPlatforms }}
+	{{ sessionSearch }}
 
 	<h1>Applications pour {{ platformName }}</h1>
 

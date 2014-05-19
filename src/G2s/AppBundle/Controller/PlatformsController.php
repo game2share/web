@@ -6,11 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use G2s\AppBundle\Entity\App;
 use G2s\AppBundle\Entity\Platform;
 use G2s\AppBundle\Entity\AppInfo;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class PlatformsController extends Controller
 {
 	public function showAction($platform_id)
 	{
+		$session = new Session();
+		$session->start();
 		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
 		$platform		= null;
 
@@ -24,7 +27,14 @@ class PlatformsController extends Controller
 
 		return $this->container->get('templating')->renderResponse('G2sAppBundle:Platforms:show-all.html.twig', array(
 			'platformName' => $platform->getName(),
-			'appInfos' => $platform->getAppInfos()
+			'appInfos' => $platform->getAppInfos(),
+			'sessionSearch' => $session->get('search'),
+			'sessionName' => $session->get('name'),
+			'sessionMarks' => $session->get('marks'),
+			'sessionPlatforms' => $session->get('platforms')
+
+
+
 		));
 	}
 

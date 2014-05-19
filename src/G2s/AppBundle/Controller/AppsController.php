@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use G2s\AppBundle\Entity\App;
 use G2s\AppBundle\Entity\Platform;
 use G2s\AppBundle\Entity\AppInfo;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class AppsController extends Controller
 {
@@ -17,6 +19,7 @@ class AppsController extends Controller
 
 	public function showOneAction($app_id)
 	{
+
 		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:App');
 		$app			= null;
 
@@ -51,6 +54,10 @@ class AppsController extends Controller
 
 	public function showSelectedAction($apps = null, $previous_search = null)
 	{
+		$session = new Session();
+
+		/*$session -> start();*/
+		// ici
 		$tagRepository		= $this->getDoctrine()->getRepository('G2sAppBundle:Tag');
 		$platformRepository = $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
 		$tags 			= $tagRepository->findAll();
@@ -60,12 +67,16 @@ class AppsController extends Controller
 
 		return $this->render(
 			'G2sAppBundle:Apps:show-selected.html.twig',
-			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps, 'previous_search' => $previous_search)
+			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps, 'previous_search' => $previous_search, 'sessionSearch' => $session->get('search'), 'sessionName' => $session->get('name'),'sessionPlatforms' => $session->get('platforms'))
 		);
 	}
 
 	public function selectAppsAction()
 	{
+		
+		
+
+
 	    $request	= $this->container->get('request');
 
 	    $search		= "";
@@ -95,6 +106,15 @@ class AppsController extends Controller
 	 */
 	public function searchApps($search, $mark, $tags, $platforms)
 	{
+
+		$session = new Session();
+		$session -> start();
+
+		$session->set('search', "$search");
+		$session->set('mark', "$mark");
+		$session->set('tags', "$tags");
+		$session->set('platforms', "$platforms");
+
 	    $em			= $this->container->get('doctrine')->getManager();
 
 		$markQuery = "";
