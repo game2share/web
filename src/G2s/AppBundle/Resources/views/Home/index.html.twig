@@ -1,7 +1,7 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-  {{ parent() }} - Home
+  {{ parent() }} - Accueil
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
 	{{ include('G2sAppBundle:Home:about-nolayout.html.twig', {'short': true}) }}
   </div>
   <div class="container">
-  	<h2>For your system : {{ os }}</h2>
+	<h2>Pour votre système : {{ os }}</h2>
 	{% for appInfo in appInfos %}
 
 		{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': appInfo.app, 'short': true}) }}

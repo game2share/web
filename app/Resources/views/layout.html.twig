@@ -22,22 +22,22 @@
 		        </div>
 		        <div class="navbar-collapse collapse">
 		          <ul class="nav navbar-nav">
-		            <li class="active"><a href="{{ path('g2s_app_homepage') }}">Home</a></li>
-		            <li><a href="{{ path('g2s_app_apps_show_all') }}">All Apps</a></li>
+		            <li class="active"><a href="{{ path('g2s_app_homepage') }}">Accueil</a></li>
+		            <li><a href="{{ path('g2s_app_apps_show_all') }}">Toutes les Applications</a></li>
 		            <li class="dropdown">
-		              <a class="dropdown-toggle" data-toggle="dropdown">By Platform <b class="caret"></b></a>
+		              <a class="dropdown-toggle" data-toggle="dropdown">Par Plateformes<b class="caret"></b></a>
 		              <ul class="dropdown-menu">
 						{{ render(controller('G2sAppBundle:Platforms:listHeader')) }}
 		              </ul>
 					</li>
 		            <li class="dropdown">
-		              <a class="dropdown-toggle" data-toggle="dropdown">By Tags <b class="caret"></b></a>
+		              <a class="dropdown-toggle" data-toggle="dropdown">Par Tags<b class="caret"></b></a>
 		              <ul class="dropdown-menu">
 						{{ render(controller('G2sAppBundle:Tags:listHeader')) }}
 		              </ul>
 		            </li>
-					<li><a href="{{ path('g2s_app_about') }}">About</a></li>
-		            <li><a href="{{ path('g2s_app_contact') }}">Contact</a></li>
+					<li><a href="{{ path('g2s_app_about') }}">A propos</a></li>
+		            <li><a href="{{ path('g2s_app_contact') }}">Contacts</a></li>
 		            </ul>
 
 		            <form class="navbar-form navbar-right" role="form" method="post" action="{{ path('g2s_app_apps_selection') }}">
