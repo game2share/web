@@ -67,7 +67,7 @@ class AppsController extends Controller
 
 		return $this->render(
 			'G2sAppBundle:Apps:show-selected.html.twig',
-			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps, 'previous_search' => $previous_search, 'sessionSearch' => $session->get('search'), 'sessionName' => $session->get('name'),'sessionPlatforms' => $session->get('platforms'))
+			array('tags' => $tags, 'platforms' => $platforms, 'apps' => $apps, 'previous_search' => $previous_search)
 		);
 	}
 
@@ -117,10 +117,10 @@ class AppsController extends Controller
 			$session->set('mark', "$mark");
 		}
 		if ($tags != null) {
-			$session->set('tags', "$tags");
+			$session->set('tags', $tags);
 		}
-		if ($platforms) {
-			$session->set('platforms', "$platforms");
+		if ($platforms != null) {
+			$session->set('platforms', $platforms);
 		}
 
 	    $em			= $this->container->get('doctrine')->getManager();

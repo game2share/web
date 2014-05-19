@@ -9,7 +9,7 @@
 
 	<h1>Applications classées dans {{ tagName }}</h1>
 
-	{% for app in apps %}
+	{% for application in apps %}
 
 		{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'application': application, 'short': true}) }}
 
