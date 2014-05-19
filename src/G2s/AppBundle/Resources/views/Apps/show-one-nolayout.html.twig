@@ -57,21 +57,7 @@
 					<h4>Télécharger pour :</h4>
 				</div>
 				<div class="panel-body">
-					{% if application.appInfos|length == 1 %}
-						{% set width	= 12 %}
-					{% elseif application.appInfos|length == 2 %}
-						{% set width	= 6 %}
-					{% else %}
-						{% set width	= 4 %}
-					{% endif %}
 					{% for appInfo in application.appInfos %}
-						<div class="col-sm-{{ width }}">
-							<a href='http://{{appInfo.downloadPath}}'>
-								<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
-								<br/>
-								{{ appInfo.platform.name }}
-							</a>
-						</div>
 
 						{# Process mark averages #}
 						{% set avg		= 0 %}
@@ -108,8 +94,35 @@
 								<br/>
 								{{ detectOs.platform.name }}
 							</a>
+							{% if application.appInfos|length > 1 %}
+								<hr />
+							{% endif %}
 						</div>
+						{% set detectOsOffset = 1 %}
+					{% else %}
+						{% set detectOsOffset = 0 %}
 					{% endif %}
+
+					{% if (application.appInfos|length - detectOsOffset) == 1 %}
+						{% set width	= 12 %}
+					{% elseif (application.appInfos|length - detectOsOffset)== 2 %}
+						{% set width	= 6 %}
+					{% else %}
+						{% set width	= 4 %}
+					{% endif %}
+
+					{% for appInfo in application.appInfos %}
+						{% if (detectOs is not null and appInfo != detectOs) or detectOs is null %}
+							<div class="col-sm-{{ width }}">
+								<a href='http://{{appInfo.downloadPath}}'>
+									<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
+									<br/>
+									{{ appInfo.platform.name }}
+								</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+
 
 					{# Process mark averages #}
 					{% if nbAvg > 0 %}
