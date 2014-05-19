@@ -100,7 +100,9 @@
 						{% set detectOsOffset = 0 %}
 					{% endif %}
 
-					{% if (application.appInfos|length - detectOsOffset) == 1 %}
+					{% if (application.appInfos|length - detectOsOffset) == 0 %}
+						{% set width	= 12 %}
+					{% elseif (application.appInfos|length - detectOsOffset) == 1 %}
 						{% set width	= 12 %}
 					{% elseif (application.appInfos|length - detectOsOffset)== 2 %}
 						{% set width	= 6 %}
