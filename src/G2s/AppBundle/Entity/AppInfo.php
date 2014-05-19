@@ -51,6 +51,13 @@ class AppInfo
 	 */
 	private $comments;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="average_mark", type="integer", nullable=true)
+     */
+    private $average_mark;
+
 	/**
 	 * @ORM\OneToMany(targetEntity="Mark", mappedBy="appInfo")
 	 */

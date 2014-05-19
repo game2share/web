@@ -61,6 +61,8 @@ class CommentsController extends Controller
 			$em->persist($newMark);
 			$em->flush();
 
+			$this->calculateAverageMark($appInfo[0]);
+
 			$comment->setMark($newMark);
 		}
 
@@ -68,6 +70,25 @@ class CommentsController extends Controller
 		$em->flush();
 
 		return new JsonResponse(array('message' => 'Your comment was successfully added !'));
+	}
+
+	public function calculateAverageMark($appInfo){
+		$em = $this->container->get('doctrine')->getEntityManager();
+		$marks = $appInfo->getMarks();
+		if ($marks == null) {
+			$appInfo->setAverageMark(null);
+		}else{
+			$i=0;
+			$totalMark = 0;
+			foreach ($marks as $mark) {
+				$totalMark += $mark->getMark();
+				$i++;
+			}
+			$average = $totalMark/$i;
+			$appInfo->setAverageMark($average);
+		}
+		$em->persist($appInfo);
+		$em->flush();
 	}
 }
 
