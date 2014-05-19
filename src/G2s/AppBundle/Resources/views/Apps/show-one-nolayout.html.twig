@@ -100,9 +100,7 @@
 						{% set detectOsOffset = 0 %}
 					{% endif %}
 
-					{% if (application.appInfos|length - detectOsOffset) == 0 %}
-						{% set width	= 12 %}
-					{% elseif (application.appInfos|length - detectOsOffset) == 1 %}
+					{% if (application.appInfos|length - detectOsOffset) == 1 %}
 						{% set width	= 12 %}
 					{% elseif (application.appInfos|length - detectOsOffset)== 2 %}
 						{% set width	= 6 %}
@@ -111,7 +109,7 @@
 					{% endif %}
 
 					{% for appInfo in application.appInfos %}
-						{% if detectOs is not null and appInfo != detectOs %}
+						{% if (detectOs is not null and appInfo != detectOs) or detectOs is null %}
 							<div class="col-sm-{{ width }}">
 								<a href='http://{{appInfo.downloadPath}}'>
 									<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
