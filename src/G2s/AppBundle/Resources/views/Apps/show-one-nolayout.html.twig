@@ -15,7 +15,7 @@
 			{% endfor %}
 		</div>
 		<br/>
-		<p>{{ app.description }}</p>
+		<p>{{ app.description|raw }}</p>
 		{% if not short %}
 			<ul class="nav nav-tabs">
 				{% set isFirst = true %}
