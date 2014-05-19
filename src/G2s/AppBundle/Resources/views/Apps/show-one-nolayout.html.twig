@@ -2,24 +2,25 @@
 {% set globalAvg	= 0		%}
 {% set platformsAvg = []	%}
 {% set nbAvg		= 0		%}
+{% set detectOs     = null %}
 
 <div class="row">
 	<div class="col-md-12">
-		<h1><a href=" {{ path('g2s_app_apps_show_one', {'app_id': app.id}) }}">{{ app.name }}</a></h1>
+		<h1><a href=" {{ path('g2s_app_apps_show_one', {'app_id': application.id}) }}">{{ application.name }}</a></h1>
 		<hr/>
 	</div>
 	<div class="col-md-9">
 		<div>
-			{% for tag in app.tags %}
+			{% for tag in application.tags %}
 				<a href="{{ path('g2s_app_tags_show', {'tag_id': tag.id}) }}" class="label label-primary">{{ tag.name }}</a>
 			{% endfor %}
 		</div>
 		<br/>
-		<p>{{ app.description|raw }}</p>
+		<p>{{ application.description|raw }}</p>
 		{% if not short %}
 			<ul class="nav nav-tabs">
 				{% set isFirst = true %}
-				{% for appInfo in app.appInfos %}
+				{% for appInfo in application.appInfos %}
 					{% if appInfo.manual|length %}
 						{% if isFirst %}
 							<li class="active">
@@ -35,7 +36,7 @@
 			</ul>
 			<div class="tab-content">
 				{% set isFirst = true %}
-				{% for appInfo in app.appInfos %}
+				{% for appInfo in application.appInfos %}
 					{% if appInfo.manual|length %}
 						<div class="tab-pane
 							{% if isFirst %}
@@ -56,14 +57,14 @@
 					<h4>Télécharger pour :</h4>
 				</div>
 				<div class="panel-body">
-					{% if app.appInfos|length == 1 %}
+					{% if application.appInfos|length == 1 %}
 						{% set width	= 12 %}
-					{% elseif app.appInfos|length == 2 %}
+					{% elseif application.appInfos|length == 2 %}
 						{% set width	= 6 %}
 					{% else %}
 						{% set width	= 4 %}
 					{% endif %}
-					{% for appInfo in app.appInfos %}
+					{% for appInfo in application.appInfos %}
 						<div class="col-sm-{{ width }}">
 							<a href='http://{{appInfo.downloadPath}}'>
 								<img src="{{ asset('img/' ~ appInfo.platform.logoPath) }}" alt="{{ appInfo.platform.name }}" height="64" width="64"/>
@@ -91,9 +92,24 @@
 
 						{% set platformsAvg = platformsAvg | merge([avg]) %}
 
+						{% if app.session.get('os') == appInfo.platform.name %}
+							{% set detectOs = appInfo %}
+						{% endif %}
+
 					{% else %}
 						<p>Aucune plateforme supportée</p>
 					{% endfor %}
+
+					{% if detectOs is not null %}
+						<div class="col-sm-12">
+							<h2>Pour votre système :</h2>
+							<a href='http://{{detectOs.downloadPath}}'>
+								<img src="{{ asset('img/' ~ detectOs.platform.logoPath) }}" alt="{{ detectOs.platform.name }}" height="100" width="100"/>
+								<br/>
+								{{ detectOs.platform.name }}
+							</a>
+						</div>
+					{% endif %}
 
 					{# Process mark averages #}
 					{% if nbAvg > 0 %}
@@ -109,7 +125,7 @@
 					<div class="panel-body">
 						<ul>
 						{% set platformIt = 0 %}
-						{% for appInfo in app.appInfos %}
+						{% for appInfo in application.appInfos %}
 							<li>
 								{{ appInfo.platform.name }} :
 								{% if platformsAvg[platformIt] != -1 %}
@@ -136,19 +152,19 @@
 		<div class="col-md-12">
 			<h2>Comments</h2>
 			<div id="divFormCom" class="well">
-				<form class="form-horizontal" id="form-comment{{ app.id }}" method="POST">
+				<form class="form-horizontal" id="form-comment{{ application.id }}" method="POST">
 					<div class="form-group">
 						<div class="col-md-4">
 							<label for="titleCom" class="control-label col-md-3">Titre : </label>
 							<div class="col-md-9">
-								<input type="text" placeholder="Title" class="form-control" id="titleCom{{ app.id }}" name="titleCom" style="display: inline;">
+								<input type="text" placeholder="Title" class="form-control" id="titleCom{{ application.id }}" name="titleCom" style="display: inline;">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<label for="platformCom" class="control-label col-md-4">Plateforme : </label>
 							<div class="col-md-8">
-								<select id="platformCom{{ app.id }}" class="form-control" name="platformCom">
-								  {% for appInfo in app.appInfos %}
+								<select id="platformCom{{ application.id }}" class="form-control" name="platformCom">
+								  {% for appInfo in application.appInfos %}
 									<option value="{{ appInfo.platform.id }}">{{ appInfo.platform.name }}</option>
 								  {% endfor %}
 								</select>
@@ -157,7 +173,7 @@
 						<div class="col-md-4">
 							<label for="markCom" class="control-label col-md-4">Note : </label>
 							<div class="col-md-8">
-								<select id="markCom{{ app.id }}" class="form-control" name="markCom">
+								<select id="markCom{{ application.id }}" class="form-control" name="markCom">
 								  <option value="">Add a Mark</option>
 								  <option>0</option>
 								  <option>1</option>
@@ -186,17 +202,17 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-12">
-							<textarea id="textCom{{ app.id }}" class="form-control" name="commentCom" placeholder="Ajoutez votre commentaire ..." rows="3"></textarea>
+							<textarea id="textCom{{ application.id }}" class="form-control" name="commentCom" placeholder="Ajoutez votre commentaire ..." rows="3"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-md-12">
-							<button type="submit" id="submitCom{{ app.id }}" class="btn btn-primary form-control"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+							<button type="submit" id="submitCom{{ application.id }}" class="btn btn-primary form-control"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
 						</div>
 					</div>
 				</form>
 			</div>
-			{{ render(controller('G2sAppBundle:Comments:show', {'app_id': app.id})) }}
+			{{ render(controller('G2sAppBundle:Comments:show', {'app_id': application.id})) }}
 		</div>
 	{% endif %}
 </div>
@@ -206,16 +222,16 @@
 {% if not short %}
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script>
-		$("#form-comment{{ app.id }}").submit(function(){
-			var comment = $("#textCom{{ app.id }}").val();
+		$("#form-comment{{ application.id }}").submit(function(){
+			var comment = $("#textCom{{ application.id }}").val();
 
 			if(comment != "")
 			{
-				var mark = $("#markCom{{ app.id }}").val();
-				var title = $("#titleCom{{ app.id }}").val();
-				var platform = $("#platformCom{{ app.id }}").val();
-				var platformName = $('#platformCom{{ app.id }} option:selected').html();
-				var app = {{ app.id }};
+				var mark = $("#markCom{{ application.id }}").val();
+				var title = $("#titleCom{{ application.id }}").val();
+				var platform = $("#platformCom{{ application.id }}").val();
+				var platformName = $('#platformCom{{ application.id }} option:selected').html();
+				var app = {{ application.id }};
 
 				var commentDOM = '<div class="panel panel-info"><div class="panel-heading"><strong>' + title + '</strong>';
 

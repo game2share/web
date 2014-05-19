@@ -1,11 +1,11 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-	{{ parent() }} - Application : {{ app.name }}
+	{{ parent() }} - Application : {{ application.name }}
 {% endblock %}
 
 {% block body %}
 	{{ parent() }}
 
-	{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': app, 'short': false}) }}
+	{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'application': application, 'short': false}) }}
 {% endblock %}

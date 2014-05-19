@@ -6,16 +6,12 @@
 
 {% block body %}
 	{{ parent() }}
-	{{ sessionName }}
-	{{ sessionMarks }}
-	{{ sessionPlatforms }}
-	{{ sessionSearch }}
 
 	<h1>Applications pour {{ platformName }}</h1>
 
 	{% for appInfo in appInfos %}
 
-		{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'app': appInfo.app, 'short': true}) }}
+		{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'application': appInfo.app, 'short': true}) }}
 
 	{% else %}
 		<div class="alert alert-danger"><h1>Aucune application trouvée.</h1><div>

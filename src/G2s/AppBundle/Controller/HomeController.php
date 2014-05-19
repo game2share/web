@@ -15,21 +15,15 @@ class HomeController extends Controller
     	$session = new Session();
     	$session -> start();
 
-    	$session->set('name', 'user');
-    	$session->getFlashBag()->add('notice','profile updated');
-
-    	foreach ($session->getFlashBag()->get('notice', array()) as $message) {
-    		
-    		echo "<div class='flash-notice'>$message</div>";
-    	}
-
-
     	$agent = $_SERVER['HTTP_USER_AGENT'];
 
 		if(preg_match('/Linux/',$agent)) $os = 'Linux';
 		elseif(preg_match('/Win/',$agent)) $os = 'Windows';
-		elseif(preg_match('/Android/',$agent)) $os = 'Android';
 		else $os = 'UnKnown';
+
+		if(preg_match('/Android/',$agent)) $os = 'Android';
+
+		$session->set('os', "$os");
 
 		$repository		= $this->getDoctrine()->getRepository('G2sAppBundle:Platform');
 

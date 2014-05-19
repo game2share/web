@@ -33,7 +33,7 @@ class AppsController extends Controller
 
 		return $this->render(
 			'G2sAppBundle:Apps:show-one.html.twig',
-			array('app' => $app)
+			array('application' => $app)
 		);
 	}
 
@@ -110,10 +110,18 @@ class AppsController extends Controller
 		$session = new Session();
 		$session -> start();
 
-		$session->set('search', "$search");
-		$session->set('mark', "$mark");
-		$session->set('tags', "$tags");
-		$session->set('platforms', "$platforms");
+		if ($search != null) {
+			$session->set('search', "$search");
+		}
+		if ($mark != null) {
+			$session->set('mark', "$mark");
+		}
+		if ($tags != null) {
+			$session->set('tags', "$tags");
+		}
+		if ($platforms) {
+			$session->set('platforms', "$platforms");
+		}
 
 	    $em			= $this->container->get('doctrine')->getManager();
 
