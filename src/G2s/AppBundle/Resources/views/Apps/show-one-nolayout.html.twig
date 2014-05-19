@@ -42,7 +42,7 @@
 								active
 								{% set isFirst = false %}
 							{% endif %}
-							" id="manual-platform{{ appInfo.platform.id }}"><br/>{{appInfo.manual|raw}}</div>
+							" id="manual-platform{{ appInfo.platform.id }}" align="left"><br/>{{appInfo.manual|raw}}</div>
 					{% endif %}
 				{% endfor %}
 			</div>
@@ -53,7 +53,7 @@
 		<div class="row">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h4>Download For :</h4>
+					<h4>Télécharger pour :</h4>
 				</div>
 				<div class="panel-body">
 					{% if app.appInfos|length == 1 %}
@@ -104,7 +104,7 @@
 				</div>
 				{% if globalAvg != -1 %}
 					<div class="panel-heading">
-						<h4>Marks : {{ globalAvg }} / 20</h4>
+						<h4>Notes : {{ globalAvg }} / 20</h4>
 					</div>
 					<div class="panel-body">
 						<ul>
@@ -125,7 +125,7 @@
 					</div>
 				{% else %}
 					<div class="panel-heading">
-						<h4>No Marks</h4>
+						<h4>Aucune note</h4>
 					</div>
 				{% endif %}
 			</div>
@@ -139,13 +139,13 @@
 				<form class="form-horizontal" id="form-comment{{ app.id }}" method="POST">
 					<div class="form-group">
 						<div class="col-md-4">
-							<label for="titleCom" class="control-label col-md-3">Title : </label>
+							<label for="titleCom" class="control-label col-md-3">Titre : </label>
 							<div class="col-md-9">
 								<input type="text" placeholder="Title" class="form-control" id="titleCom{{ app.id }}" name="titleCom" style="display: inline;">
 							</div>
 						</div>
 						<div class="col-md-4">
-							<label for="platformCom" class="control-label col-md-4">Platform : </label>
+							<label for="platformCom" class="control-label col-md-4">Plateforme : </label>
 							<div class="col-md-8">
 								<select id="platformCom{{ app.id }}" class="form-control" name="platformCom">
 								  {% for appInfo in app.appInfos %}
@@ -155,7 +155,7 @@
 							</div>
 						</div>
 						<div class="col-md-4">
-							<label for="markCom" class="control-label col-md-4">Mark : </label>
+							<label for="markCom" class="control-label col-md-4">Note : </label>
 							<div class="col-md-8">
 								<select id="markCom{{ app.id }}" class="form-control" name="markCom">
 								  <option value="">Add a Mark</option>
@@ -186,7 +186,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-12">
-							<textarea id="textCom{{ app.id }}" class="form-control" name="commentCom" placeholder="Add your comment..." rows="3"></textarea>
+							<textarea id="textCom{{ app.id }}" class="form-control" name="commentCom" placeholder="Ajoutez votre commentaire ..." rows="3"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -245,39 +245,7 @@
 				return false;
 			}
 			else
-			var mark = $("#markCom{{ app.id }}").val();
-			var title = $("#titleCom{{ app.id }}").val();
-			var platform = $("#platformCom{{ app.id }}").val();
-			var platformName = $('#platformCom{{ app.id }} option:selected').html();
-			var app = {{ app.id }};
-
-			var commentDOM = '<div class="panel panel-info"><div class="panel-heading"><strong>' + title + '</strong>';
-
-			if(mark == "")
-				mark = null;
-			else
-				commentDOM += ' ' + mark + ' / 20';
-
-			commentDOM += '<em>(' + platformName + ')</em></div><div class="panel-body">' + comment + '</div></div>';
-
-			$.ajax({
-				type: "POST",
-				url: "{{ path('g2s_app_comments_add') }}",
-				data: {
-						mark: mark,
-						title: title,
-						comment: comment,
-						platform: platform,
-						app: app
-					  },
-				cache: false,
-				success: function(data){
-					$("#no-comment").remove();
-					$(commentDOM).insertAfter("#divFormCom");
-				}
-			});
-			return false;
-				alert("You must add a comment");
+				alert("Vous devez ajouter un commentaire.");
 		});
 
 	</script>
