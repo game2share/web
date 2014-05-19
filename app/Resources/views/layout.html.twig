@@ -36,8 +36,6 @@
 						{{ render(controller('G2sAppBundle:Tags:listHeader')) }}
 		              </ul>
 		            </li>
-					<li><a href="{{ path('g2s_app_about') }}">A propos</a></li>
-		            <li><a href="{{ path('g2s_app_contact') }}">Contacts</a></li>
 		            </ul>
 
 		            <form class="navbar-form navbar-right" role="form" method="post" action="{{ path('g2s_app_apps_selection') }}">
@@ -60,6 +58,17 @@
 			{% block body %}
 		
 			{% endblock %}
+
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="navbar">
+						<hr />
+						<a href="{{ path('g2s_app_about') }}">A propos</a>
+						<a href="{{ path('g2s_app_contact') }}">Contacts</a>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		{% block javascripts %}

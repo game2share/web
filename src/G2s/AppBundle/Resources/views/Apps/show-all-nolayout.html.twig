@@ -1,6 +1,12 @@
+{% set i = 0 %}
 {% for application in apps %}
+	{% set i = i + 1 %}
 
 	{{ include('G2sAppBundle:Apps:show-one-nolayout.html.twig', {'application': application, 'short': true}) }}
+
+	{% if apps|length != i %}
+		<hr />
+	{% endif %}
 
 {% else %}
 	<div class="alert alert-danger"><h1>Aucune application trouvée.</h1><div>
